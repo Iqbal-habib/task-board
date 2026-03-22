@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Tasks</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        board: {
+          bg: '#f1f5f9',
+          card: '#ffffff',
+          darkBg: '#0f172a',
+          darkCard: '#1e293b',
+        }
+      }
+    }
+  }
+}
+</script>
+<style>
+  /* ── Base & Scrollbar ── */
+  * { -webkit-tap-highlight-color: transparent; }
+  html, body { overscroll-behavior-y: contain; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+  .dark ::-webkit-scrollbar-thumb { background: #475569; }
+
+  /* ── Kanban columns ── */
+  #sections-container { scrollbar-width: none; -ms-overflow-style: none; }
+  #sections-container::-webkit-scrollbar { display: none; }
+  [id^="task-list-"] { scrollbar-width: thin; }
+  [id^="task-list-"]::-webkit-scrollbar { width: 4px; }
+  [id^="task-list-"]::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+  .dark [id^="task-list-"]::-webkit-scrollbar-thumb { background: #334155; }
+
+  /* ── Animations ── */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 600px; } }
+  @keyframes slideUp { from { opacity: 1; max-height: 600px; } to { opacity: 0; max-height: 0; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+  @keyframes toastIn { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes toastOut { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
+  @keyframes completeSlide {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.95); background: #22c55e20; }
+    100% { opacity: 0; transform: scale(0.9) translateX(20px); }
+  }
+  .animate-fade-in { animation: fadeIn 0.25s ease-out; }
+  .animate-slide-down { animation: slideDown 0.3s ease-out; overflow: hidden; }
+  .animate-complete { animation: completeSlide 0.4s ease-out forwards; }
+  .animate-toast-in { animation: toastIn 0.3s ease-out; }
+  .animate-toast-out { animation: toastOut 0.3s ease-out forwards; }
+  .animate-spin { animation: spin 1s linear infinite; }
+  .animate-pulse { animation: pulse 2s ease-in-out infinite; }
+
+  /* ── SortableJS ghost ── */
+  .sortable-ghost { opacity: 0.4; }
+  .sortable-chosen { box-shadow: 0 8px 25px rgba(0,0,0,0.15); transform: scale(1.02); }
+  .dark .sortable-chosen { box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+  .sortable-drag { opacity: 0.9; }
+
+  /* ── Draggable cards ── */
+  .task-card { cursor: grab; touch-action: none; }
+  .task-card:active { cursor: grabbing; }
+  .task-card button { cursor: pointer; }
+
+  /* ── Goals scrollbar ── */
+  .goals-scroll::-webkit-scrollbar { height: 0; }
+
+  /* ── Context menu ── */
+  .ctx-menu { box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  .dark .ctx-menu { box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+
+  /* ── Pull to refresh indicator ── */
+  .pull-indicator { transition: transform 0.2s ease; }
+
+  /* ── Modal backdrop ── */
+  .modal-backdrop { backdrop-filter: blur(4px); }
+</style>
+</head>
+<body class="bg-board-bg dark:bg-board-darkBg min-h-screen transition-colors duration-300">
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  TOAST CONTAINER                                    -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="toast-container" class="fixed top-0 left-0 right-0 z-[100] flex flex-col items-center pointer-events-none"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  OFFLINE BANNER                                     -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="offline-banner" class="hidden fixed top-0 left-0 right-0 z-50 bg-amber-500 text-white text-center text-sm py-1.5 font-medium">
+  Offline — showing cached data
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  SETUP SCREEN                                       -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="setup-screen" class="hidden min-h-screen flex items-center justify-center p-6">
+  <div class="w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 animate-fade-in">
+    <div class="text-center mb-8">
+      <div class="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+      </div>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Task Board</h1>
+      <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">Connect to GitHub to sync your tasks</p>
+    </div>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Personal Access Token</label>
+        <input id="setup-token" type="password" placeholder="ghp_xxxxxxxxxxxx"
+          class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">GitHub Username</label>
+        <input id="setup-owner" type="text" placeholder="octocat"
+          class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Repository</label>
+        <input id="setup-repo" type="text" placeholder="my-tasks"
+          class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">File Path</label>
+        <input id="setup-path" type="text" value="tasks.json"
+          class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+      </div>
+      <div id="setup-error" class="hidden text-red-500 text-sm text-center"></div>
+      <button id="setup-connect" onclick="handleSetup()"
+        class="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-colors text-sm">
+        Connect
+      </button>
+      <button onclick="skipSetup()"
+        class="w-full py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium text-sm transition-colors">
+        Use offline only
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  MAIN BOARD                                         -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="board-screen" class="hidden">
+
+  <!-- ── Top Bar ── -->
+  <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
+    <!-- Goals Bar -->
+    <div id="goals-bar" class="hidden px-4 py-2 border-b border-slate-100 dark:border-slate-700/50">
+      <div class="goals-scroll flex gap-2 overflow-x-auto pb-1" id="goals-container"></div>
+    </div>
+    <!-- Header Row -->
+    <div class="flex items-center justify-between px-4 py-3">
+      <h1 class="text-lg font-bold text-slate-900 dark:text-white">Tasks</h1>
+      <div class="flex items-center gap-3">
+        <!-- Sync indicator -->
+        <div id="sync-indicator" class="flex items-center gap-1.5 cursor-pointer" onclick="manualSync()">
+          <div id="sync-dot" class="w-2.5 h-2.5 rounded-full bg-green-500 transition-colors"></div>
+          <span id="sync-label" class="text-xs text-slate-500 dark:text-slate-400 hidden sm:inline">Synced</span>
+        </div>
+        <!-- Refresh -->
+        <button onclick="manualSync()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="Refresh">
+          <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+        </button>
+        <!-- Dark mode toggle -->
+        <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="Toggle dark mode">
+          <svg id="icon-sun" class="w-4 h-4 text-slate-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          <svg id="icon-moon" class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+        <!-- Search toggle -->
+        <button onclick="toggleSearch()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="Search">
+          <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </button>
+        <!-- Settings -->
+        <button onclick="showSettings()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="Settings">
+          <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Debts Panel -->
+    <div id="debts-panel" class="hidden border-t border-slate-100 dark:border-slate-700/50">
+      <button onclick="toggleDebts()" class="w-full flex items-center justify-between px-4 py-2 text-sm">
+        <span class="font-medium text-slate-700 dark:text-slate-300">Debts Summary</span>
+        <svg id="debts-chevron" class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div id="debts-content" class="hidden px-4 pb-3" ></div>
+    </div>
+  </header>
+
+  <!-- ── Pull to Refresh Indicator ── -->
+  <div id="pull-indicator" class="pull-indicator flex justify-center py-2 -mt-10 transition-all">
+    <svg class="w-5 h-5 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+    </svg>
+  </div>
+
+  <!-- ── View Tabs ── -->
+  <div id="view-tabs" class="px-3 sm:px-4 pt-2 pb-1">
+    <div class="flex gap-1 bg-slate-100 dark:bg-slate-800 rounded-xl p-1">
+      <button onclick="setView('all')" data-view="all" class="view-tab flex-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors">All</button>
+      <button onclick="setView('personal')" data-view="personal" class="view-tab flex-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors">Personal</button>
+      <button onclick="setView('work')" data-view="work" class="view-tab flex-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors">Work</button>
+      <button onclick="setView('case')" data-view="case" class="view-tab flex-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors">Case</button>
+    </div>
+  </div>
+
+  <!-- ── Search Bar ── -->
+  <div id="search-bar" class="hidden px-3 sm:px-4 pt-1 pb-1">
+    <div class="relative">
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+      <input id="search-input" type="text" placeholder="Search tasks..."
+        oninput="handleSearch(this.value)"
+        class="w-full pl-9 pr-8 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+      <button onclick="clearSearch()" class="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-slate-200 dark:hover:bg-slate-600">
+        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Suggestions Panel ── -->
+  <div id="suggestions-panel" class="hidden px-3 sm:px-4 pt-1 pb-0.5">
+    <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-lg overflow-hidden">
+      <button onclick="toggleSuggestions()" class="w-full flex items-center justify-between px-2.5 py-1">
+        <div class="flex items-center gap-1.5">
+          <svg class="w-3 h-3 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
+          <span class="text-[11px] font-semibold text-amber-800 dark:text-amber-300">Suggestions</span>
+          <span id="suggestion-count" class="text-[10px] font-medium px-1 py-px rounded-full bg-amber-200 dark:bg-amber-800 text-amber-700 dark:text-amber-300">0</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span onclick="event.stopPropagation(); dismissAllSuggestions()" class="text-[10px] text-amber-600 dark:text-amber-400 hover:underline">Dismiss all</span>
+          <svg id="suggestions-chevron" class="w-3 h-3 text-amber-400 transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+      </button>
+      <div id="suggestions-list" class="px-1.5 pb-1 space-y-0.5 max-h-28 overflow-y-auto"></div>
+      <div class="flex gap-1 px-1.5 pb-1.5 pt-0.5">
+        <input id="suggest-input" type="text" placeholder="Ask Claude to suggest..."
+          class="flex-1 px-2 py-0.5 text-[10px] rounded border border-amber-200 dark:border-amber-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-1 focus:ring-amber-400"
+          onkeydown="if(event.key==='Enter')saveSuggestRequest()">
+        <button onclick="saveSuggestRequest()" class="px-2 py-0.5 text-[10px] font-medium bg-amber-500 hover:bg-amber-600 text-white rounded transition-colors">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Swim Lanes Container ── -->
+  <main class="pb-24 pt-1 px-3 sm:px-4 overflow-y-auto" style="height: calc(100vh - 110px)">
+    <div id="lanes-container" class="space-y-3"></div>
+  </main>
+
+  <!-- ── FAB ── -->
+  <button id="fab" onclick="quickAdd('backlog', activeView !== 'all' ? activeView : 'personal')"
+    class="fixed bottom-6 right-6 w-14 h-14 bg-blue-500 hover:bg-blue-600 active:scale-95 text-white rounded-full shadow-lg flex items-center justify-center transition-all z-30">
+    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+    </svg>
+  </button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  TASK MODAL                                         -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="task-modal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center modal-backdrop bg-black/40">
+  <div class="w-full sm:max-w-lg bg-white dark:bg-slate-800 rounded-t-2xl sm:rounded-2xl shadow-2xl animate-fade-in max-h-[90vh] overflow-y-auto">
+    <div class="p-5">
+      <div class="flex items-center justify-between mb-5">
+        <h2 id="modal-title" class="text-lg font-bold text-slate-900 dark:text-white">Add Task</h2>
+        <button onclick="closeModal()" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
+          <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Title</label>
+          <input id="modal-task-title" type="text" placeholder="What needs to be done?"
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            onkeydown="if(event.key==='Enter')saveTask()">
+        </div>
+        <div id="modal-section-row" class="hidden">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Section</label>
+          <select id="modal-section"
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+            <option value="backlog">Backlog</option>
+            <option value="this-week">This Week</option>
+            <option value="today">Today</option>
+            <option value="things-to-buy">Things to Buy</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <div id="modal-category-row" class="hidden">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Category</label>
+          <select id="modal-category"
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+            <option value="personal">Personal</option>
+            <option value="work">Work</option>
+            <option value="case">Case</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Note <span class="text-slate-400 font-normal">(optional)</span></label>
+          <textarea id="modal-note" rows="2" placeholder="Add details..."
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm resize-none"></textarea>
+        </div>
+        <div id="modal-tags-row" class="hidden">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Tags <span class="text-slate-400 font-normal">(comma-separated)</span></label>
+          <input id="modal-tags" type="text" placeholder="work, urgent, personal"
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+        </div>
+        <button onclick="saveTask()"
+          class="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-colors text-sm">
+          <span id="modal-save-text">Add Task</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  GOAL POPOVER                                       -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="goal-popover" class="hidden fixed z-50 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-600 p-4 max-w-xs animate-fade-in">
+  <h3 id="goal-popover-title" class="font-semibold text-slate-900 dark:text-white text-sm mb-1"></h3>
+  <p id="goal-popover-details" class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed"></p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  CONTEXT MENU                                       -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="context-menu" class="hidden fixed z-50 ctx-menu bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-600 py-1 min-w-[160px] animate-fade-in">
+  <button onclick="editTaskFromMenu()" class="w-full text-left px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2.5">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+    Edit
+  </button>
+  <div id="move-submenu">
+    <div class="px-4 py-1.5 text-xs font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">Move to</div>
+    <button onclick="moveTask('backlog')" data-move="backlog" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2.5">
+      <span class="w-2.5 h-2.5 rounded-full bg-gray-500"></span> Backlog
+    </button>
+    <button onclick="moveTask('this-week')" data-move="this-week" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2.5">
+      <span class="w-2.5 h-2.5 rounded-full bg-violet-500"></span> This Week
+    </button>
+    <button onclick="moveTask('today')" data-move="today" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2.5">
+      <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Today
+    </button>
+    <button onclick="moveTask('things-to-buy')" data-move="things-to-buy" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2.5">
+      <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Things to Buy
+    </button>
+    <button onclick="moveTask('done')" data-move="done" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2.5">
+      <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> Done
+    </button>
+  </div>
+  <div class="border-t border-slate-100 dark:border-slate-700 my-1"></div>
+  <button onclick="deleteTaskFromMenu()" class="w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2.5">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+    Delete
+  </button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  SETTINGS MODAL                                     -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="settings-modal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center modal-backdrop bg-black/40">
+  <div class="w-full sm:max-w-md bg-white dark:bg-slate-800 rounded-t-2xl sm:rounded-2xl shadow-2xl animate-fade-in">
+    <div class="p-5">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-lg font-bold text-slate-900 dark:text-white">Settings</h2>
+        <button onclick="closeSettings()" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
+          <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="space-y-3">
+        <div class="flex items-center justify-between py-2">
+          <span class="text-sm text-slate-700 dark:text-slate-300">GitHub Connected</span>
+          <span id="settings-gh-status" class="text-sm font-medium text-green-500">Yes</span>
+        </div>
+        <button onclick="disconnectGitHub()"
+          class="w-full py-2.5 border border-red-200 dark:border-red-800 text-red-500 rounded-xl text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+          Disconnect GitHub
+        </button>
+        <div class="border-t border-slate-200 dark:border-slate-700 pt-3 mt-1">
+          <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Data</p>
+          <div class="space-y-2">
+            <button onclick="exportData()"
+              class="w-full py-2 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-xl text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+              Export Backup (JSON)
+            </button>
+            <button onclick="importData()"
+              class="w-full py-2 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-xl text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+              Import from Backup
+            </button>
+            <button onclick="restoreBackup()"
+              class="w-full py-2 border border-amber-200 dark:border-amber-700 text-amber-600 dark:text-amber-400 rounded-xl text-sm hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors">
+              Restore Previous Version
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  CONFIRM DIALOG                                     -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="confirm-dialog" class="hidden fixed inset-0 z-[60] flex items-center justify-center modal-backdrop bg-black/40">
+  <div class="w-full max-w-sm mx-4 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl animate-fade-in p-5">
+    <p id="confirm-message" class="text-sm text-slate-700 dark:text-slate-300 mb-5"></p>
+    <div class="flex gap-3">
+      <button onclick="confirmResolve(false)" class="flex-1 py-2.5 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-xl text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Cancel</button>
+      <button onclick="confirmResolve(true)" class="flex-1 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-sm transition-colors">Delete</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!--  JAVASCRIPT                                                            -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<script>
+// ═══════════════════════════════════════════════════
+//  STATE & CONFIG
+// ═══════════════════════════════════════════════════
+let state = null;        // the full tasks.json object
+let fileSha = null;      // current SHA for GitHub optimistic concurrency
+let ghConfig = null;     // { token, owner, repo, path }
+let saveTimer = null;    // debounce timer
+let offlineMutations = [];
+let isOffline = false;
+let sortableInstances = [];
+let menuTaskId = null;
+let menuSectionId = null;
+let editingTaskId = null;
+let doneCollapsed = true;
+let debtsExpanded = false;
+let expandedCardId = null;
+let confirmPromiseResolve = null;
+let activeView = localStorage.getItem('tb-active-view') || 'all';
+let searchQuery = '';
+let expandedSuggestions = new Set();
+
+const TAG_COLORS = [
+  'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
+  'bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300',
+  'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300',
+  'bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300',
+  'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300',
+  'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300',
+  'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300',
+];
+
+const SECTION_META = {
+  'backlog':       { title: 'Backlog',       color: '#6b7280', bg: 'bg-gray-500',   ring: 'ring-gray-500/20' },
+  'this-week':     { title: 'This Week',     color: '#8b5cf6', bg: 'bg-violet-500', ring: 'ring-violet-500/20' },
+  'today':         { title: 'Today',         color: '#3b82f6', bg: 'bg-blue-500',   ring: 'ring-blue-500/20' },
+  'things-to-buy': { title: 'Things to Buy', color: '#f59e0b', bg: 'bg-amber-500',  ring: 'ring-amber-500/20' },
+  'done':          { title: 'Done',          color: '#22c55e', bg: 'bg-green-500',  ring: 'ring-green-500/20' },
+};
+
+const CATEGORY_META = {
+  personal: { label: 'Personal', color: '#22c55e', border: 'border-l-green-500', pill: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300' },
+  work:     { label: 'Work',     color: '#3b82f6', border: 'border-l-blue-500',  pill: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' },
+  case:     { label: 'Case',     color: '#ef4444', border: 'border-l-red-500',   pill: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' },
+};
+
+const DEFAULT_STATE = {
+  version: 1,
+  lastModifiedBy: 'web',
+  lastModifiedAt: new Date().toISOString(),
+  sections: [
+    { id: 'backlog', title: 'Backlog', color: '#6b7280', tasks: [] },
+    { id: 'this-week', title: 'This Week', color: '#8b5cf6', tasks: [] },
+    { id: 'today', title: 'Today', color: '#3b82f6', tasks: [] },
+    { id: 'things-to-buy', title: 'Things to Buy', color: '#f59e0b', tasks: [] },
+    { id: 'done', title: 'Done', color: '#22c55e', tasks: [] },
+  ],
+  goals: [],
+  debts: [],
+  suggestions: [],
+  suggestionRequest: '',
+};
+
+// ═══════════════════════════════════════════════════
+//  DARK MODE
+// ═══════════════════════════════════════════════════
+function initDarkMode() {
+  const saved = localStorage.getItem('tb-dark-mode');
+  let dark;
+  if (saved !== null) {
+    dark = saved === 'true';
+  } else {
+    dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  applyDarkMode(dark);
+}
+
+function applyDarkMode(dark) {
+  document.documentElement.classList.toggle('dark', dark);
+  document.getElementById('icon-sun').classList.toggle('hidden', !dark);
+  document.getElementById('icon-moon').classList.toggle('hidden', dark);
+}
+
+function toggleDarkMode() {
+  const dark = !document.documentElement.classList.contains('dark');
+  localStorage.setItem('tb-dark-mode', dark);
+  applyDarkMode(dark);
+}
+
+// ═══════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const colors = {
+    info: 'bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-800',
+    success: 'bg-green-600 text-white',
+    error: 'bg-red-600 text-white',
+    warning: 'bg-amber-500 text-white',
+  };
+  const el = document.createElement('div');
+  el.className = `mt-3 px-4 py-2.5 rounded-xl text-sm font-medium shadow-lg pointer-events-auto animate-toast-in ${colors[type] || colors.info}`;
+  el.textContent = message;
+  container.appendChild(el);
+  setTimeout(() => {
+    el.classList.add('animate-toast-out');
+    el.addEventListener('animationend', () => el.remove());
+  }, 2500);
+}
+
+// ═══════════════════════════════════════════════════
+//  CONFIRM DIALOG
+// ═══════════════════════════════════════════════════
+function showConfirm(message) {
+  return new Promise(resolve => {
+    confirmPromiseResolve = resolve;
+    document.getElementById('confirm-message').textContent = message;
+    document.getElementById('confirm-dialog').classList.remove('hidden');
+  });
+}
+
+function confirmResolve(result) {
+  document.getElementById('confirm-dialog').classList.add('hidden');
+  if (confirmPromiseResolve) {
+    confirmPromiseResolve(result);
+    confirmPromiseResolve = null;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  SYNC INDICATOR
+// ═══════════════════════════════════════════════════
+function setSyncStatus(status) {
+  const dot = document.getElementById('sync-dot');
+  const label = document.getElementById('sync-label');
+  dot.className = 'w-2.5 h-2.5 rounded-full transition-colors';
+  switch (status) {
+    case 'synced':
+      dot.classList.add('bg-green-500');
+      label.textContent = 'Synced';
+      break;
+    case 'saving':
+      dot.classList.add('bg-amber-400', 'animate-spin');
+      label.textContent = 'Saving...';
+      break;
+    case 'error':
+      dot.classList.add('bg-red-500', 'animate-pulse');
+      label.textContent = 'Error';
+      break;
+    case 'offline':
+      dot.classList.add('bg-amber-400');
+      label.textContent = 'Offline';
+      break;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  GITHUB API
+// ═══════════════════════════════════════════════════
+function ghHeaders() {
+  return {
+    'Authorization': `Bearer ${ghConfig.token}`,
+    'Accept': 'application/vnd.github.v3+json',
+  };
+}
+
+function ghUrl() {
+  return `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${ghConfig.path}`;
+}
+
+async function ghFetch() {
+  if (!ghConfig) return null;
+  const resp = await fetch(ghUrl(), { headers: ghHeaders() });
+  if (!resp.ok) throw new Error(`GitHub GET ${resp.status}`);
+  const data = await resp.json();
+  fileSha = data.sha;
+  const content = atob(data.content.replace(/\n/g, ''));
+  // Handle UTF-8 properly
+  const bytes = new Uint8Array([...content].map(c => c.charCodeAt(0)));
+  const decoded = new TextDecoder().decode(bytes);
+  return JSON.parse(decoded);
+}
+
+async function ghPut(data) {
+  if (!ghConfig) return;
+  setSyncStatus('saving');
+  const json = JSON.stringify(data, null, 2);
+  const encoded = btoa(unescape(encodeURIComponent(json)));
+  try {
+    const resp = await fetch(ghUrl(), {
+      method: 'PUT',
+      headers: { ...ghHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: `Update tasks via web board`,
+        content: encoded,
+        sha: fileSha,
+      }),
+    });
+    if (resp.status === 409) {
+      // SHA mismatch — re-fetch
+      showToast('Synced latest changes', 'info');
+      await loadFromGitHub();
+      return;
+    }
+    if (!resp.ok) throw new Error(`GitHub PUT ${resp.status}`);
+    const result = await resp.json();
+    fileSha = result.content.sha;
+    setSyncStatus('synced');
+  } catch (err) {
+    console.error('ghPut error:', err);
+    setSyncStatus('error');
+    showToast('Failed to save — will retry', 'error');
+    // queue for retry
+    queueOfflineMutation();
+  }
+}
+
+function queueOfflineMutation() {
+  localStorage.setItem('tb-pending-save', 'true');
+}
+
+// ═══════════════════════════════════════════════════
+//  SETUP
+// ═══════════════════════════════════════════════════
+async function handleSetup() {
+  const token = document.getElementById('setup-token').value.trim();
+  const owner = document.getElementById('setup-owner').value.trim();
+  const repo = document.getElementById('setup-repo').value.trim();
+  const path = document.getElementById('setup-path').value.trim();
+  const errEl = document.getElementById('setup-error');
+  const btn = document.getElementById('setup-connect');
+
+  if (!token || !owner || !repo || !path) {
+    errEl.textContent = 'All fields are required';
+    errEl.classList.remove('hidden');
+    return;
+  }
+
+  btn.textContent = 'Connecting...';
+  btn.disabled = true;
+  errEl.classList.add('hidden');
+
+  ghConfig = { token, owner, repo, path };
+
+  try {
+    const data = await ghFetch();
+    localStorage.setItem('tb-gh-config', JSON.stringify(ghConfig));
+    localStorage.setItem('tb-cache', JSON.stringify(data));
+    state = data;
+    showBoard();
+    setSyncStatus('synced');
+  } catch (err) {
+    errEl.textContent = `Connection failed: ${err.message}`;
+    errEl.classList.remove('hidden');
+    ghConfig = null;
+  } finally {
+    btn.textContent = 'Connect';
+    btn.disabled = false;
+  }
+}
+
+function skipSetup() {
+  const cached = localStorage.getItem('tb-cache');
+  state = cached ? JSON.parse(cached) : JSON.parse(JSON.stringify(DEFAULT_STATE));
+  showBoard();
+  setSyncStatus('offline');
+}
+
+// ═══════════════════════════════════════════════════
+//  LOAD & INIT
+// ═══════════════════════════════════════════════════
+async function loadFromGitHub() {
+  try {
+    const data = await ghFetch();
+    state = data;
+    localStorage.setItem('tb-cache', JSON.stringify(data));
+    isOffline = false;
+    document.getElementById('offline-banner').classList.add('hidden');
+    setSyncStatus('synced');
+    render();
+  } catch (err) {
+    console.error('Load error:', err);
+    isOffline = true;
+    document.getElementById('offline-banner').classList.remove('hidden');
+    setSyncStatus('offline');
+    const cached = localStorage.getItem('tb-cache');
+    if (cached) {
+      state = JSON.parse(cached);
+      render();
+    }
+  }
+}
+
+async function manualSync() {
+  if (!ghConfig) return;
+  setSyncStatus('saving');
+  await loadFromGitHub();
+}
+
+function showBoard() {
+  document.getElementById('setup-screen').classList.add('hidden');
+  document.getElementById('board-screen').classList.remove('hidden');
+  render();
+}
+
+// ═══════════════════════════════════════════════════
+//  SAVE (DEBOUNCED)
+// ═══════════════════════════════════════════════════
+function scheduleSave() {
+  state.lastModifiedBy = 'web';
+  state.lastModifiedAt = new Date().toISOString();
+
+  // Rolling backups before overwriting
+  const current = localStorage.getItem('tb-cache');
+  if (current) {
+    const backup1 = localStorage.getItem('tb-backup-1');
+    if (backup1) localStorage.setItem('tb-backup-2', backup1);
+    localStorage.setItem('tb-backup-1', current);
+  }
+
+  localStorage.setItem('tb-cache', JSON.stringify(state));
+
+  if (!ghConfig) return;
+
+  clearTimeout(saveTimer);
+  setSyncStatus('saving');
+  saveTimer = setTimeout(() => ghPut(state), 1000);
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════════
+function render() {
+  if (!state) return;
+  updateViewTabs();
+  renderGoals();
+  renderDebts();
+  renderSuggestions();
+  renderSections();
+  initSortable();
+}
+
+// ── Goals ──
+function renderGoals() {
+  const goals = (state.goals || []).filter(g => g.active);
+  const bar = document.getElementById('goals-bar');
+  const container = document.getElementById('goals-container');
+
+  if (!goals.length) {
+    bar.classList.add('hidden');
+    return;
+  }
+
+  bar.classList.remove('hidden');
+  const goalColors = ['bg-blue-500', 'bg-violet-500', 'bg-amber-500', 'bg-rose-500', 'bg-emerald-500'];
+  container.innerHTML = goals.map((g, i) => `
+    <button onclick="showGoalPopover(event, '${g.id}')"
+      class="flex-shrink-0 px-3 py-1 ${goalColors[i % goalColors.length]} text-white text-xs font-medium rounded-full whitespace-nowrap">
+      ${escHtml(g.title)}
+    </button>
+  `).join('');
+}
+
+function showGoalPopover(event, goalId) {
+  const goal = state.goals.find(g => g.id === goalId);
+  if (!goal) return;
+
+  const pop = document.getElementById('goal-popover');
+  document.getElementById('goal-popover-title').textContent = goal.title;
+  document.getElementById('goal-popover-details').textContent = goal.details || 'No details';
+  pop.classList.remove('hidden');
+
+  const rect = event.target.getBoundingClientRect();
+  pop.style.top = (rect.bottom + 8) + 'px';
+  pop.style.left = Math.min(rect.left, window.innerWidth - 260) + 'px';
+
+  setTimeout(() => {
+    document.addEventListener('click', closeGoalPopover, { once: true });
+  }, 10);
+}
+
+function closeGoalPopover() {
+  document.getElementById('goal-popover').classList.add('hidden');
+}
+
+// ── Debts ──
+function renderDebts() {
+  const debts = (state.debts || []).filter(d => !d.resolved);
+  const panel = document.getElementById('debts-panel');
+
+  if (!debts.length) {
+    panel.classList.add('hidden');
+    return;
+  }
+
+  panel.classList.remove('hidden');
+  const content = document.getElementById('debts-content');
+  const total = debts.reduce((s, d) => s + (d.amount || 0), 0);
+
+  content.innerHTML = `
+    <div class="space-y-2">
+      ${debts.map(d => `
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-slate-600 dark:text-slate-400">${escHtml(d.label)}</span>
+          <span class="font-medium text-slate-900 dark:text-white">$${(d.amount || 0).toLocaleString()}</span>
+        </div>
+      `).join('')}
+      <div class="flex items-center justify-between text-sm font-bold pt-2 border-t border-slate-200 dark:border-slate-600">
+        <span class="text-slate-700 dark:text-slate-300">Total</span>
+        <span class="text-slate-900 dark:text-white">$${total.toLocaleString()}</span>
+      </div>
+    </div>
+  `;
+}
+
+function toggleDebts() {
+  debtsExpanded = !debtsExpanded;
+  document.getElementById('debts-content').classList.toggle('hidden', !debtsExpanded);
+  document.getElementById('debts-chevron').style.transform = debtsExpanded ? 'rotate(180deg)' : '';
+}
+
+// ── Suggestions ──
+let suggestionsExpanded = true;
+
+function renderSuggestions() {
+  const suggestions = (state.suggestions || []).filter(s => s.status === 'pending');
+  const panel = document.getElementById('suggestions-panel');
+
+  if (!suggestions.length) {
+    panel.classList.add('hidden');
+    return;
+  }
+
+  panel.classList.remove('hidden');
+  document.getElementById('suggestion-count').textContent = suggestions.length;
+  const list = document.getElementById('suggestions-list');
+  list.classList.toggle('hidden', !suggestionsExpanded);
+  document.getElementById('suggestions-chevron').style.transform = suggestionsExpanded ? 'rotate(180deg)' : '';
+
+  const typeLabels = { rewrite: 'Rewrite', merge: 'Merge', move: 'Move', archive: 'Archive', delete: 'Delete' };
+  const typeColors = {
+    rewrite: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
+    merge: 'bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300',
+    move: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300',
+    archive: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
+    delete: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300',
+  };
+
+  list.innerHTML = suggestions.map(sg => {
+    const label = typeLabels[sg.type] || sg.type;
+    const color = typeColors[sg.type] || typeColors.rewrite;
+    const isExpanded = expandedSuggestions.has(sg.id);
+    const chevron = isExpanded ? '&#9660;' : '&#9654;';
+
+    // Build expanded detail section
+    let detailHtml = '';
+    if (isExpanded) {
+      let inner = '';
+      if (sg.type === 'merge') {
+        const sourceBullets = (sg.taskIds || []).map(tid => {
+          const found = findTaskById(tid);
+          return found ? `<li>${escHtml(found.task.title)}</li>` : '';
+        }).filter(Boolean).join('');
+        inner = `<ul class="list-disc list-inside space-y-px text-slate-500 dark:text-slate-400">${sourceBullets}</ul>
+          ${sg.after ? `<div class="mt-0.5 text-green-600 dark:text-green-400 font-medium">&rarr; ${escHtml(sg.after)}</div>` : ''}`;
+      } else if (sg.type === 'rewrite') {
+        inner = `${sg.before ? `<div><span class="line-through text-slate-400">${escHtml(sg.before)}</span></div>` : ''}
+          ${sg.after ? `<div class="text-green-600 dark:text-green-400 font-medium">&rarr; ${escHtml(sg.after)}</div>` : ''}`;
+      } else if (sg.type === 'move') {
+        const found = sg.taskIds?.[0] ? findTaskById(sg.taskIds[0]) : null;
+        const currentSection = found ? (SECTION_META[found.section.id]?.title || found.section.title) : '?';
+        const targetName = SECTION_META[sg.targetSection]?.title || sg.targetSection || '?';
+        inner = `${found ? `<div>${escHtml(found.task.title)}</div>` : ''}
+          <div>${escHtml(currentSection)} &rarr; <span class="font-medium text-cyan-600 dark:text-cyan-400">${escHtml(targetName)}</span></div>`;
+      } else if (sg.type === 'archive' || sg.type === 'delete') {
+        const found = sg.taskIds?.[0] ? findTaskById(sg.taskIds[0]) : null;
+        inner = found ? `<div>${escHtml(found.task.title)}${found.task.note ? ` — <span class="italic text-slate-400">${escHtml(found.task.note)}</span>` : ''}</div>` : '';
+      }
+      if (inner) {
+        detailHtml = `<div class="px-2 pb-1.5"><div class="pl-2 border-l-2 border-amber-300 dark:border-amber-600 text-[10px] text-slate-500 dark:text-slate-400 space-y-px">${inner}</div></div>`;
+      }
+    }
+
+    return `
+      <div class="bg-white dark:bg-slate-800 rounded-md border border-slate-100 dark:border-slate-700/50">
+        <div class="flex items-center gap-1.5 px-2 py-1 cursor-pointer" onclick="toggleSuggestionDetail('${sg.id}')">
+          <span class="text-[9px] text-slate-400" style="line-height:1">${chevron}</span>
+          <span class="px-1 py-px rounded text-[8px] font-bold ${color} uppercase">${label}</span>
+          <p class="flex-1 text-[11px] text-slate-600 dark:text-slate-300 truncate">${escHtml(sg.description)}</p>
+          <div class="flex gap-1 flex-shrink-0" onclick="event.stopPropagation()">
+            <button onclick="approveSuggestion('${sg.id}')"
+              class="px-1.5 py-0.5 bg-green-500 hover:bg-green-600 text-white text-[10px] font-medium rounded transition-colors">Yes</button>
+            <button onclick="declineSuggestion('${sg.id}')"
+              class="px-1.5 py-0.5 bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-500 text-slate-500 dark:text-slate-300 text-[10px] font-medium rounded transition-colors">No</button>
+          </div>
+        </div>${detailHtml}
+      </div>
+    `;
+  }).join('');
+}
+
+function saveSuggestRequest() {
+  const input = document.getElementById('suggest-input');
+  const text = input.value.trim();
+  if (!text) return;
+  state.suggestionRequest = text;
+  input.value = '';
+  scheduleSave();
+  showToast('Request saved — Claude will process it next session', 'success');
+}
+
+function toggleSuggestionDetail(sgId) {
+  if (expandedSuggestions.has(sgId)) expandedSuggestions.delete(sgId);
+  else expandedSuggestions.add(sgId);
+  renderSuggestions();
+}
+
+function toggleSuggestions() {
+  suggestionsExpanded = !suggestionsExpanded;
+  document.getElementById('suggestions-list').classList.toggle('hidden', !suggestionsExpanded);
+  document.getElementById('suggestions-chevron').style.transform = suggestionsExpanded ? 'rotate(180deg)' : '';
+}
+
+function findTaskById(taskId) {
+  for (const section of state.sections) {
+    const task = section.tasks.find(t => t.id === taskId);
+    if (task) return { task, section };
+  }
+  return null;
+}
+
+function removeTaskById(taskId) {
+  for (const section of state.sections) {
+    const idx = section.tasks.findIndex(t => t.id === taskId);
+    if (idx !== -1) { section.tasks.splice(idx, 1); return; }
+  }
+}
+
+function approveSuggestion(suggestionId) {
+  const sg = (state.suggestions || []).find(s => s.id === suggestionId);
+  if (!sg) return;
+
+  switch (sg.type) {
+    case 'rewrite': {
+      const found = findTaskById(sg.taskIds[0]);
+      if (found) found.task.title = sg.after;
+      break;
+    }
+    case 'merge': {
+      const keep = findTaskById(sg.taskIds[0]);
+      if (keep) {
+        const notes = [];
+        for (let i = 1; i < sg.taskIds.length; i++) {
+          const f = findTaskById(sg.taskIds[i]);
+          if (f) {
+            if (f.task.note) notes.push(f.task.note);
+            removeTaskById(sg.taskIds[i]);
+          }
+        }
+        keep.task.title = sg.after;
+        if (notes.length) keep.task.note = [keep.task.note, ...notes].filter(Boolean).join('\n');
+      }
+      break;
+    }
+    case 'move': {
+      const found = findTaskById(sg.taskIds[0]);
+      if (found) {
+        const task = found.task;
+        removeTaskById(sg.taskIds[0]);
+        if (sg.targetSection === 'done' && !task.completedAt) task.completedAt = new Date().toISOString();
+        if (sg.targetSection !== 'done' && task.completedAt) task.completedAt = null;
+        const target = state.sections.find(s => s.id === sg.targetSection);
+        if (target) target.tasks.unshift(task);
+      }
+      break;
+    }
+    case 'archive': {
+      const found = findTaskById(sg.taskIds[0]);
+      if (found) {
+        const task = found.task;
+        removeTaskById(sg.taskIds[0]);
+        task.completedAt = new Date().toISOString();
+        const done = state.sections.find(s => s.id === 'done');
+        if (done) done.tasks.unshift(task);
+      }
+      break;
+    }
+    case 'delete': {
+      removeTaskById(sg.taskIds[0]);
+      break;
+    }
+  }
+
+  sg.status = 'approved';
+  scheduleSave();
+  render();
+  showToast('Suggestion applied', 'success');
+}
+
+function declineSuggestion(suggestionId) {
+  const sg = (state.suggestions || []).find(s => s.id === suggestionId);
+  if (sg) sg.status = 'declined';
+  scheduleSave();
+  render();
+}
+
+function dismissAllSuggestions() {
+  (state.suggestions || []).forEach(s => {
+    if (s.status === 'pending') s.status = 'declined';
+  });
+  scheduleSave();
+  render();
+}
+
+// ── Views ──
+function setView(view) {
+  activeView = view;
+  localStorage.setItem('tb-active-view', view);
+  render();
+}
+
+function updateViewTabs() {
+  document.querySelectorAll('.view-tab').forEach(btn => {
+    const isActive = btn.dataset.view === activeView;
+    btn.className = `view-tab flex-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+      isActive
+        ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
+        : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+    }`;
+  });
+}
+
+// ── Search ──
+function toggleSearch() {
+  const bar = document.getElementById('search-bar');
+  const visible = !bar.classList.contains('hidden');
+  if (visible) {
+    clearSearch();
+  } else {
+    bar.classList.remove('hidden');
+    document.getElementById('search-input').focus();
+  }
+}
+
+function handleSearch(query) {
+  searchQuery = query.toLowerCase();
+  renderSections();
+  initSortable();
+}
+
+function clearSearch() {
+  searchQuery = '';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-bar').classList.add('hidden');
+  renderSections();
+  initSortable();
+}
+
+// ── Quick Add ──
+let addTargetSection = 'backlog';
+let addTargetCategory = 'personal';
+
+function quickAdd(sectionId, category) {
+  addTargetSection = sectionId;
+  addTargetCategory = category || (activeView !== 'all' ? activeView : 'personal');
+  openAddModal();
+}
+
+// ── Swim Lanes ──
+const LANE_SECTIONS = ['backlog', 'this-week', 'today', 'done'];
+const LANES = [
+  { id: 'personal', label: 'Personal', color: '#22c55e', bgClass: 'bg-green-500' },
+  { id: 'work',     label: 'Work',     color: '#3b82f6', bgClass: 'bg-blue-500' },
+  { id: 'case',     label: 'Case',     color: '#ef4444', bgClass: 'bg-red-500' },
+];
+
+let collapsedLanes = JSON.parse(localStorage.getItem('tb-collapsed-lanes') || '{}');
+
+function toggleLane(laneId) {
+  collapsedLanes[laneId] = !collapsedLanes[laneId];
+  localStorage.setItem('tb-collapsed-lanes', JSON.stringify(collapsedLanes));
+  renderSections();
+  initSortable();
+}
+
+function renderSections() {
+  const container = document.getElementById('lanes-container');
+  container.innerHTML = '';
+
+  // Render each swim lane
+  for (const lane of LANES) {
+    // Skip lanes based on active view filter
+    if (activeView !== 'all' && activeView !== lane.id) continue;
+
+    const isCollapsed = collapsedLanes[lane.id];
+
+    const laneEl = document.createElement('div');
+    laneEl.className = 'rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700/50';
+    laneEl.innerHTML = `
+      <button onclick="toggleLane('${lane.id}')" class="w-full flex items-center gap-2 px-3 py-1.5 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700/50">
+        <div class="w-2.5 h-2.5 rounded-full ${lane.bgClass}"></div>
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">${lane.label}</span>
+        <svg class="w-3.5 h-3.5 text-slate-400 transition-transform ml-auto ${isCollapsed ? '' : 'rotate-180'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div class="${isCollapsed ? 'hidden' : 'flex'} gap-2 sm:gap-3 overflow-x-auto p-2 snap-x snap-mandatory sm:snap-none bg-white/50 dark:bg-slate-900/30" id="lane-${lane.id}"></div>
+    `;
+    container.appendChild(laneEl);
+
+    if (isCollapsed) continue;
+
+    const laneBody = laneEl.querySelector(`#lane-${lane.id}`);
+
+    for (const secId of LANE_SECTIONS) {
+      const section = state.sections.find(s => s.id === secId);
+      if (!section) continue;
+
+      const meta = SECTION_META[secId];
+      const isDone = secId === 'done';
+      const allTasks = section.tasks || [];
+
+      const tasks = allTasks.filter(t => {
+        const catMatch = (t.category || 'personal') === lane.id;
+        const searchMatch = !searchQuery || t.title.toLowerCase().includes(searchQuery) || (t.note || '').toLowerCase().includes(searchQuery);
+        return catMatch && searchMatch;
+      });
+
+      const collapsed = isDone && doneCollapsed;
+
+      const colEl = document.createElement('div');
+      colEl.className = 'flex-shrink-0 w-[75vw] sm:w-60 md:w-64 snap-center flex flex-col bg-slate-100 dark:bg-slate-800/50 rounded-xl overflow-hidden max-h-[50vh]';
+      colEl.innerHTML = `
+        <div class="flex items-center gap-1.5 px-2 py-1.5 flex-shrink-0">
+          <div class="w-2 h-2 rounded-full ${meta.bg}"></div>
+          <h3 class="text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">${escHtml(meta.title)}</h3>
+          <span class="text-[10px] font-medium px-1.5 py-px rounded-full bg-white/60 dark:bg-slate-700 text-slate-500 dark:text-slate-400">${tasks.length}</span>
+          <div class="ml-auto flex items-center gap-0.5">
+            <button onclick="quickAdd('${secId}'); document.getElementById('modal-category').value='${lane.id}'" class="p-0.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700" title="Add task">
+              <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+            </button>
+            ${isDone ? `
+              <button onclick="toggleDone()" class="p-0.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700">
+                <svg class="w-3.5 h-3.5 text-slate-400 transition-transform ${collapsed ? '' : 'rotate-180'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+            ` : ''}
+          </div>
+        </div>
+        <div id="task-list-${lane.id}-${secId}" class="space-y-1 flex-1 overflow-y-auto px-1.5 pb-1.5 min-h-[1.5rem] transition-all ${collapsed ? 'hidden' : ''}" data-section="${secId}" data-lane="${lane.id}">
+          ${tasks.length === 0 ? `
+            <div class="text-center py-3 text-[10px] text-slate-400 dark:text-slate-500">Empty</div>
+          ` : tasks.map(task => renderTaskCard(task, secId)).join('')}
+        </div>
+      `;
+      laneBody.appendChild(colEl);
+    }
+  }
+
+  // Things to Buy — separate section at the end (personal only)
+  if (activeView === 'all' || activeView === 'personal') {
+    const buySection = state.sections.find(s => s.id === 'things-to-buy');
+    if (buySection) {
+      const buyTasks = (buySection.tasks || []).filter(t => {
+        const searchMatch = !searchQuery || t.title.toLowerCase().includes(searchQuery) || (t.note || '').toLowerCase().includes(searchQuery);
+        return searchMatch;
+      });
+
+      const buyEl = document.createElement('div');
+      buyEl.className = 'rounded-xl overflow-hidden border border-amber-200 dark:border-amber-700/50';
+      buyEl.innerHTML = `
+        <button onclick="collapsedLanes['things-to-buy']=!collapsedLanes['things-to-buy'];localStorage.setItem('tb-collapsed-lanes',JSON.stringify(collapsedLanes));renderSections();initSortable();"
+          class="w-full flex items-center gap-2 px-3 py-1.5 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-700/50">
+          <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300">Things to Buy</span>
+          <span class="text-[10px] font-medium px-1.5 py-px rounded-full bg-amber-100 dark:bg-amber-800 text-amber-600 dark:text-amber-400">${buyTasks.length}</span>
+          <button onclick="event.stopPropagation(); quickAdd('things-to-buy'); document.getElementById('modal-category').value='personal'" class="ml-auto p-0.5 rounded hover:bg-amber-100 dark:hover:bg-amber-800" title="Add item">
+            <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+          </button>
+          <svg class="w-3.5 h-3.5 text-amber-400 transition-transform ${collapsedLanes['things-to-buy'] ? '' : 'rotate-180'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div id="task-list-things-to-buy" class="${collapsedLanes['things-to-buy'] ? 'hidden' : 'grid'} grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1 p-2 bg-amber-50/30 dark:bg-amber-900/10" data-section="things-to-buy">
+          ${buyTasks.length === 0 ? `
+            <div class="text-center py-3 text-[10px] text-slate-400 col-span-full">Nothing to buy</div>
+          ` : buyTasks.map(task => renderTaskCard(task, 'things-to-buy')).join('')}
+        </div>
+      `;
+      container.appendChild(buyEl);
+    }
+  }
+}
+
+function toggleCardExpand(taskId, event) {
+  if (event.target.closest('button')) return;
+  expandedCardId = expandedCardId === taskId ? null : taskId;
+  renderSections();
+  initSortable();
+}
+
+function renderTaskCard(task, sectionId) {
+  const isDone = sectionId === 'done' || !!task.completedAt;
+  const isExpanded = expandedCardId === task.id;
+  const tagHtml = (task.tags || []).map(tag => {
+    const color = TAG_COLORS[hashStr(tag) % TAG_COLORS.length];
+    return `<span class="px-1 py-px rounded text-[8px] font-medium ${color} whitespace-nowrap">${escHtml(tag)}</span>`;
+  }).join('');
+
+  if (isExpanded) {
+    return `
+      <div class="task-card group bg-white dark:bg-slate-800 rounded-lg px-2 py-1.5 shadow-md border border-blue-200 dark:border-blue-700/50 transition-all cursor-pointer"
+           onclick="toggleCardExpand('${task.id}', event)"
+           data-id="${task.id}" data-section="${sectionId}">
+        <div class="flex items-start gap-1.5">
+          <button onclick="completeTask('${task.id}', '${sectionId}')"
+            class="mt-0.5 flex-shrink-0 w-3.5 h-3.5 rounded-full border-[1.5px] ${isDone ? 'bg-green-500 border-green-500' : 'border-slate-300 dark:border-slate-500 hover:border-blue-400'} flex items-center justify-center transition-colors">
+            ${isDone ? '<svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>' : ''}
+          </button>
+          <div class="flex-1 min-w-0">
+            <p class="text-xs leading-snug ${isDone ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-200'}">${escHtml(task.title)}</p>
+            ${task.note ? `<p class="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 leading-snug">${escHtml(task.note)}</p>` : ''}
+            ${tagHtml ? `<div class="flex flex-wrap gap-0.5 mt-1">${tagHtml}</div>` : ''}
+          </div>
+          <button onclick="openContextMenu(event, '${task.id}', '${sectionId}')"
+            class="flex-shrink-0 p-0.5 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2.5"/><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="19" r="2.5"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="task-card group flex items-center gap-1.5 bg-white dark:bg-slate-800 rounded-lg px-1.5 py-1 shadow-sm border border-slate-100 dark:border-slate-700/50 transition-all hover:shadow-md cursor-pointer"
+         onclick="toggleCardExpand('${task.id}', event)"
+         data-id="${task.id}" data-section="${sectionId}">
+      <button onclick="completeTask('${task.id}', '${sectionId}')"
+        class="flex-shrink-0 w-3.5 h-3.5 rounded-full border-[1.5px] ${isDone ? 'bg-green-500 border-green-500' : 'border-slate-300 dark:border-slate-500 hover:border-blue-400'} flex items-center justify-center transition-colors">
+        ${isDone ? '<svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>' : ''}
+      </button>
+      <div class="flex-1 min-w-0 flex items-center gap-1.5">
+        <p class="text-[11px] leading-tight truncate ${isDone ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-200'}">${escHtml(task.title)}</p>
+        ${tagHtml ? `<div class="flex gap-0.5 flex-shrink-0">${tagHtml}</div>` : ''}
+      </div>
+      <button onclick="openContextMenu(event, '${task.id}', '${sectionId}')"
+        class="flex-shrink-0 p-0.5 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-300 dark:text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">
+        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2.5"/><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="19" r="2.5"/></svg>
+      </button>
+    </div>
+  `;
+}
+
+function toggleDone() {
+  doneCollapsed = !doneCollapsed;
+  render();
+}
+
+// ═══════════════════════════════════════════════════
+//  SORTABLEJS
+// ═══════════════════════════════════════════════════
+function initSortable() {
+  sortableInstances.forEach(s => s.destroy());
+  sortableInstances = [];
+
+  // Find all task list containers (lane-based: task-list-{lane}-{section} and standalone: task-list-things-to-buy)
+  document.querySelectorAll('[id^="task-list-"]').forEach(el => {
+    const s = new Sortable(el, {
+      group: 'tasks',
+      animation: 150,
+      ghostClass: 'sortable-ghost',
+      chosenClass: 'sortable-chosen',
+      dragClass: 'sortable-drag',
+      delay: 150,
+      delayOnTouchOnly: true,
+      touchStartThreshold: 3,
+      fallbackOnBody: true,
+      swapThreshold: 0.65,
+      onEnd: handleSortEnd,
+      filter: 'button, .text-center',
+      preventOnFilter: false,
+    });
+    sortableInstances.push(s);
+  });
+}
+
+function handleSortEnd(evt) {
+  const taskId = evt.item.dataset.id;
+  // Section ID from data attribute or fallback to parsing element ID
+  const fromSectionId = evt.from.dataset.section || evt.from.id.replace(/^task-list-(?:\w+-)/, '').replace('task-list-', '');
+  const toSectionId = evt.to.dataset.section || evt.to.id.replace(/^task-list-(?:\w+-)/, '').replace('task-list-', '');
+
+  // Find and remove from source
+  const fromSection = state.sections.find(s => s.id === fromSectionId);
+  const taskIndex = fromSection.tasks.findIndex(t => t.id === taskId);
+  if (taskIndex === -1) return;
+
+  const [task] = fromSection.tasks.splice(taskIndex, 1);
+
+  // If moved to done, set completedAt
+  if (toSectionId === 'done' && !task.completedAt) {
+    task.completedAt = new Date().toISOString();
+  }
+  // If moved out of done, clear completedAt
+  if (toSectionId !== 'done' && task.completedAt) {
+    task.completedAt = null;
+  }
+
+  // Update category if dragged to a different lane
+  const toLane = evt.to.dataset.lane;
+  if (toLane && toLane !== (task.category || 'personal')) {
+    task.category = toLane;
+  }
+
+  // When filtered, DOM indices don't match full array. Use data-id from DOM to find insertion point.
+  const toSection = state.sections.find(s => s.id === toSectionId);
+  const toListEl = evt.to;
+  const domIds = [...toListEl.querySelectorAll('.task-card')].map(el => el.dataset.id);
+  const domIndex = domIds.indexOf(taskId);
+
+  if (activeView !== 'all' || searchQuery) {
+    // Insert relative to the next visible task in the full array
+    const nextVisibleId = domIds[domIndex + 1]; // task after the dropped card
+    if (nextVisibleId) {
+      const insertBefore = toSection.tasks.findIndex(t => t.id === nextVisibleId);
+      toSection.tasks.splice(insertBefore, 0, task);
+    } else {
+      toSection.tasks.push(task);
+    }
+  } else {
+    const adjustedIndex = Math.min(evt.newIndex, toSection.tasks.length);
+    toSection.tasks.splice(adjustedIndex, 0, task);
+  }
+
+  scheduleSave();
+  render();
+}
+
+// ═══════════════════════════════════════════════════
+//  TASK ACTIONS
+// ═══════════════════════════════════════════════════
+function completeTask(taskId, sectionId) {
+  const section = state.sections.find(s => s.id === sectionId);
+  const taskIndex = section.tasks.findIndex(t => t.id === taskId);
+  if (taskIndex === -1) return;
+
+  const task = section.tasks[taskIndex];
+
+  // If already done, un-complete: move back to today
+  if (task.completedAt) {
+    task.completedAt = null;
+    section.tasks.splice(taskIndex, 1);
+    const todaySection = state.sections.find(s => s.id === 'today');
+    todaySection.tasks.unshift(task);
+    scheduleSave();
+    render();
+    return;
+  }
+
+  // Animate then move to done
+  const cardEl = document.querySelector(`[data-id="${taskId}"]`);
+  if (cardEl) {
+    cardEl.classList.add('animate-complete');
+    cardEl.addEventListener('animationend', () => {
+      task.completedAt = new Date().toISOString();
+      section.tasks.splice(taskIndex, 1);
+      const doneSection = state.sections.find(s => s.id === 'done');
+      doneSection.tasks.unshift(task);
+      scheduleSave();
+      render();
+    }, { once: true });
+  } else {
+    task.completedAt = new Date().toISOString();
+    section.tasks.splice(taskIndex, 1);
+    const doneSection = state.sections.find(s => s.id === 'done');
+    doneSection.tasks.unshift(task);
+    scheduleSave();
+    render();
+  }
+}
+
+// ── Context Menu ──
+function openContextMenu(event, taskId, sectionId) {
+  event.stopPropagation();
+  menuTaskId = taskId;
+  menuSectionId = sectionId;
+
+  const menu = document.getElementById('context-menu');
+  menu.classList.remove('hidden');
+
+  // Hide the current section from move options
+  menu.querySelectorAll('[data-move]').forEach(btn => {
+    btn.classList.toggle('hidden', btn.dataset.move === sectionId);
+  });
+
+  // Position
+  const rect = event.target.closest('button').getBoundingClientRect();
+  const menuHeight = 280;
+  const menuWidth = 160;
+  let top = rect.bottom + 4;
+  let left = rect.right - menuWidth;
+
+  if (top + menuHeight > window.innerHeight) top = rect.top - menuHeight - 4;
+  if (left < 8) left = 8;
+
+  menu.style.top = top + 'px';
+  menu.style.left = left + 'px';
+
+  setTimeout(() => {
+    document.addEventListener('click', closeContextMenu, { once: true });
+  }, 10);
+}
+
+function closeContextMenu() {
+  document.getElementById('context-menu').classList.add('hidden');
+}
+
+function editTaskFromMenu() {
+  closeContextMenu();
+  const section = state.sections.find(s => s.id === menuSectionId);
+  const task = section?.tasks.find(t => t.id === menuTaskId);
+  if (!task) return;
+
+  editingTaskId = menuTaskId;
+  document.getElementById('modal-title').textContent = 'Edit Task';
+  document.getElementById('modal-save-text').textContent = 'Save Changes';
+  document.getElementById('modal-task-title').value = task.title;
+  document.getElementById('modal-section').value = menuSectionId;
+  document.getElementById('modal-category').value = task.category || 'personal';
+  document.getElementById('modal-note').value = task.note || '';
+  document.getElementById('modal-tags').value = (task.tags || []).join(', ');
+  // Show all fields for Edit
+  document.getElementById('modal-section-row').classList.remove('hidden');
+  document.getElementById('modal-category-row').classList.remove('hidden');
+  document.getElementById('modal-tags-row').classList.remove('hidden');
+  document.getElementById('task-modal').classList.remove('hidden');
+  document.getElementById('modal-task-title').focus();
+}
+
+async function deleteTaskFromMenu() {
+  closeContextMenu();
+  const confirmed = await showConfirm('Delete this task? This cannot be undone.');
+  if (!confirmed) return;
+
+  const section = state.sections.find(s => s.id === menuSectionId);
+  const idx = section.tasks.findIndex(t => t.id === menuTaskId);
+  if (idx !== -1) {
+    section.tasks.splice(idx, 1);
+    scheduleSave();
+    render();
+    showToast('Task deleted', 'success');
+  }
+}
+
+function moveTask(targetSectionId) {
+  closeContextMenu();
+  const fromSection = state.sections.find(s => s.id === menuSectionId);
+  const idx = fromSection.tasks.findIndex(t => t.id === menuTaskId);
+  if (idx === -1) return;
+
+  const [task] = fromSection.tasks.splice(idx, 1);
+
+  if (targetSectionId === 'done' && !task.completedAt) {
+    task.completedAt = new Date().toISOString();
+  }
+  if (targetSectionId !== 'done' && task.completedAt) {
+    task.completedAt = null;
+  }
+
+  const toSection = state.sections.find(s => s.id === targetSectionId);
+  toSection.tasks.unshift(task);
+
+  scheduleSave();
+  render();
+  showToast(`Moved to ${SECTION_META[targetSectionId]?.title || targetSectionId}`, 'success');
+}
+
+// ═══════════════════════════════════════════════════
+//  ADD / EDIT MODAL
+// ═══════════════════════════════════════════════════
+function openAddModal() {
+  editingTaskId = null;
+  document.getElementById('modal-title').textContent = 'Add Task';
+  document.getElementById('modal-save-text').textContent = 'Add Task';
+  document.getElementById('modal-task-title').value = '';
+  document.getElementById('modal-note').value = '';
+  // Hide section/category/tags for Add — context already known
+  document.getElementById('modal-section-row').classList.add('hidden');
+  document.getElementById('modal-category-row').classList.add('hidden');
+  document.getElementById('modal-tags-row').classList.add('hidden');
+  document.getElementById('task-modal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('modal-task-title').focus(), 100);
+}
+
+function closeModal() {
+  document.getElementById('task-modal').classList.add('hidden');
+  editingTaskId = null;
+}
+
+function saveTask() {
+  const title = document.getElementById('modal-task-title').value.trim();
+  if (!title) {
+    document.getElementById('modal-task-title').focus();
+    return;
+  }
+
+  const note = document.getElementById('modal-note').value.trim();
+
+  if (editingTaskId) {
+    // Edit existing — read from dropdowns (visible in edit mode)
+    const sectionId = document.getElementById('modal-section').value;
+    const category = document.getElementById('modal-category').value;
+    const tagsRaw = document.getElementById('modal-tags').value;
+    const tags = tagsRaw.split(',').map(t => t.trim()).filter(Boolean);
+
+    let task = null;
+    let oldSectionId = null;
+    for (const section of state.sections) {
+      const found = section.tasks.find(t => t.id === editingTaskId);
+      if (found) {
+        task = found;
+        oldSectionId = section.id;
+        break;
+      }
+    }
+    if (!task) { closeModal(); return; }
+
+    task.title = title;
+    task.note = note;
+    task.tags = tags;
+    task.category = category;
+
+    // If section changed, move it
+    if (oldSectionId !== sectionId) {
+      const fromSection = state.sections.find(s => s.id === oldSectionId);
+      const idx = fromSection.tasks.findIndex(t => t.id === editingTaskId);
+      fromSection.tasks.splice(idx, 1);
+
+      if (sectionId === 'done' && !task.completedAt) task.completedAt = new Date().toISOString();
+      if (sectionId !== 'done' && task.completedAt) task.completedAt = null;
+
+      const toSection = state.sections.find(s => s.id === sectionId);
+      toSection.tasks.unshift(task);
+    }
+
+    showToast('Task updated', 'success');
+  } else {
+    // Add new — use context from quickAdd (no dropdowns)
+    const sectionId = addTargetSection;
+    const category = addTargetCategory;
+
+    const newTask = {
+      id: 't_' + Date.now(),
+      title,
+      note,
+      tags: [],
+      category,
+      createdAt: new Date().toISOString(),
+      completedAt: sectionId === 'done' ? new Date().toISOString() : null,
+    };
+
+    const section = state.sections.find(s => s.id === sectionId);
+    section.tasks.unshift(newTask);
+    showToast('Task added', 'success');
+  }
+
+  closeModal();
+  scheduleSave();
+  render();
+}
+
+// ═══════════════════════════════════════════════════
+//  SETTINGS
+// ═══════════════════════════════════════════════════
+function showSettings() {
+  document.getElementById('settings-gh-status').textContent = ghConfig ? 'Yes' : 'No';
+  document.getElementById('settings-gh-status').className = `text-sm font-medium ${ghConfig ? 'text-green-500' : 'text-slate-400'}`;
+  document.getElementById('settings-modal').classList.remove('hidden');
+}
+
+function closeSettings() {
+  document.getElementById('settings-modal').classList.add('hidden');
+}
+
+function disconnectGitHub() {
+  localStorage.removeItem('tb-gh-config');
+  ghConfig = null;
+  fileSha = null;
+  closeSettings();
+  setSyncStatus('offline');
+  showToast('GitHub disconnected', 'info');
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `tasks-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Backup downloaded', 'success');
+  closeSettings();
+}
+
+function importData() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if (!data.sections) { showToast('Invalid file — no sections found', 'error'); return; }
+        state = data;
+        localStorage.setItem('tb-cache', JSON.stringify(state));
+        render();
+        showToast('Data restored from file', 'success');
+        closeSettings();
+      } catch (err) {
+        showToast('Invalid JSON file', 'error');
+      }
+    };
+    reader.readAsText(e.target.files[0]);
+  };
+  input.click();
+}
+
+async function restoreBackup() {
+  const b1 = localStorage.getItem('tb-backup-1');
+  const b2 = localStorage.getItem('tb-backup-2');
+
+  if (!b1 && !b2) {
+    showToast('No backups available yet', 'info');
+    return;
+  }
+
+  let options = [];
+  if (b1) {
+    try {
+      const d = JSON.parse(b1);
+      const taskCount = d.sections?.reduce((n, s) => n + (s.tasks?.length || 0), 0) || 0;
+      options.push({ key: 'tb-backup-1', label: `Previous save (${taskCount} tasks, ${d.lastModifiedAt ? new Date(d.lastModifiedAt).toLocaleString() : 'unknown'})` });
+    } catch {}
+  }
+  if (b2) {
+    try {
+      const d = JSON.parse(b2);
+      const taskCount = d.sections?.reduce((n, s) => n + (s.tasks?.length || 0), 0) || 0;
+      options.push({ key: 'tb-backup-2', label: `Older save (${taskCount} tasks, ${d.lastModifiedAt ? new Date(d.lastModifiedAt).toLocaleString() : 'unknown'})` });
+    } catch {}
+  }
+
+  if (!options.length) {
+    showToast('No valid backups found', 'info');
+    return;
+  }
+
+  // Simple: restore the most recent backup
+  const confirmed = await showConfirm(`Restore to: ${options[0].label}? Your current data will be backed up first.`);
+  if (!confirmed) return;
+
+  // Back up current state before restoring
+  localStorage.setItem('tb-backup-2', localStorage.getItem('tb-backup-1') || localStorage.getItem('tb-cache'));
+  localStorage.setItem('tb-backup-1', localStorage.getItem('tb-cache'));
+
+  const restored = localStorage.getItem(options[0].key);
+  state = JSON.parse(restored);
+  localStorage.setItem('tb-cache', JSON.stringify(state));
+  render();
+  showToast('Backup restored', 'success');
+  closeSettings();
+}
+
+// ═══════════════════════════════════════════════════
+//  PULL TO REFRESH (Mobile)
+// ═══════════════════════════════════════════════════
+let pullStartY = 0;
+let pulling = false;
+
+document.addEventListener('touchstart', (e) => {
+  if (window.scrollY === 0 && e.touches.length === 1) {
+    pullStartY = e.touches[0].clientY;
+    pulling = true;
+  }
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+  if (!pulling) return;
+  const diff = e.touches[0].clientY - pullStartY;
+  if (diff > 0 && diff < 150) {
+    document.getElementById('pull-indicator').style.transform = `translateY(${diff * 0.4}px)`;
+  }
+}, { passive: true });
+
+document.addEventListener('touchend', () => {
+  if (!pulling) return;
+  pulling = false;
+  const indicator = document.getElementById('pull-indicator');
+  const transform = parseFloat(indicator.style.transform.replace(/[^0-9.]/g, '') || '0');
+  indicator.style.transform = 'translateY(0)';
+  if (transform > 30) {
+    manualSync();
+  }
+});
+
+// ═══════════════════════════════════════════════════
+//  CLICK OUTSIDE HANDLERS
+// ═══════════════════════════════════════════════════
+document.addEventListener('click', (e) => {
+  // Close modals on backdrop click
+  if (e.target.id === 'task-modal') closeModal();
+  if (e.target.id === 'settings-modal') closeSettings();
+  if (e.target.id === 'confirm-dialog') confirmResolve(false);
+});
+
+// Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeSettings();
+    closeContextMenu();
+    closeGoalPopover();
+    confirmResolve(false);
+  }
+});
+
+// ═══════════════════════════════════════════════════
+//  ONLINE/OFFLINE DETECTION
+// ═══════════════════════════════════════════════════
+window.addEventListener('online', () => {
+  isOffline = false;
+  document.getElementById('offline-banner').classList.add('hidden');
+  if (localStorage.getItem('tb-pending-save') === 'true') {
+    localStorage.removeItem('tb-pending-save');
+    scheduleSave();
+  }
+  manualSync();
+});
+
+window.addEventListener('offline', () => {
+  isOffline = true;
+  document.getElementById('offline-banner').classList.remove('hidden');
+  setSyncStatus('offline');
+});
+
+// ═══════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════
+function escHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+function hashStr(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = ((h << 5) - h + str.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h);
+}
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+// Seed data — migrated from Obsidian Life Kanban 3
+const SEED_DATA = {"version":1,"lastModifiedBy":"claude","lastModifiedAt":"2026-03-21T12:00:00Z","sections":[{"id":"backlog","title":"Backlog","color":"#6b7280","tasks":[{"id":"t_3001","title":"Get Yasamine's Gmail","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3002","title":"Finish mom and dad's book","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["family"],"category":"personal"},{"id":"t_3003","title":"Clean the hot water tank","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["home"],"category":"personal"},{"id":"t_3004","title":"Change my security passwords for everything","note":"Including the 3 security questions","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3005","title":"Finish my taxes for 2025 (personal)","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["financial"],"category":"personal"},{"id":"t_3006","title":"Finish my goals","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3007","title":"Book appointment for hair creme + lip thing + follow up on colon","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["health"],"category":"personal"},{"id":"t_3008","title":"Move dentist appointments to after school or weekend for the kids","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids","health"],"category":"personal"},{"id":"t_3009","title":"April 7th Dr Panowyk - call them","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["health"],"category":"personal"},{"id":"t_3010","title":"Summarize Issa's doctors appointment - listen to the recording","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids","health"],"category":"personal"},{"id":"t_3011","title":"Look into medical notes for eczema","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["health"],"category":"personal"},{"id":"t_3012","title":"Send a message to the school about fall registration","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3013","title":"Update school chart and parenting chart + create GPTs for easy updating","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3014","title":"Add in Issa's next appointment","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids","health"],"category":"personal"},{"id":"t_3015","title":"Sign up for the thing Sister Salma sent (for the kids)","note":"peacewithinhome.com","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3016","title":"Check logs for Issa's sleep time every time he's been in my care","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3017","title":"Ramadan activities","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["family"],"category":"personal"},{"id":"t_3018","title":"Create Yasamine's Medical doc + add eye doctor appointment","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids","health"],"category":"personal"},{"id":"t_3019","title":"Get Condo control for my aunts","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["family"],"category":"personal"},{"id":"t_3020","title":"Finish the text messages","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3021","title":"Let Sadaf know and finish the Survey for Yasamine","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3022","title":"Let Sadaf know that I got her new card","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3023","title":"Book Issa's vaccines","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids","health"],"category":"personal"},{"id":"t_3024","title":"Book doctors appointment for myself (referral to dermatologist)","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["health"],"category":"personal"},{"id":"t_3025","title":"Set up school attendance in Claude Code","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3026","title":"Set up visitation in Claude Code","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3027","title":"Go through important notes + personal in WhatsApp and create task list","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3028","title":"Message Ashley about next steps for the support email","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["legal"],"category":"personal"},{"id":"t_3029","title":"Message Sadaf about Home Depot workshop","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3030","title":"Add in Sadaf's medical stuff","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["health"],"category":"personal"},{"id":"t_3031","title":"Send Ashley a message about the school concern","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["legal","kids"],"category":"personal"},{"id":"t_3032","title":"See if I can integrate with Tangerine","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["financial"],"category":"personal"},{"id":"t_3033","title":"Progress on my taxes","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["financial"],"category":"personal"},{"id":"t_3034","title":"Clean up my VS Code and figure out what else I need to do","note":"Maybe automate AppClose","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3035","title":"GLA school re admin Issa","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3036","title":"Go through all my papers and receipts","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["financial"],"category":"personal"},{"id":"t_3037","title":"Put $300 from fam into Yasi's RESP for her 2nd bday","note":"Bahar, Arash, Mom","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["financial","kids"],"category":"personal"},{"id":"t_3038","title":"Download all the videos so I am up to date","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3039","title":"Send Ashley and Shelly a summary of the doctors appointment","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["legal","health"],"category":"personal"},{"id":"t_3040","title":"Summarize the doctors appointment with Issa re his skin","note":"For Ashley and for medical notes","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids","health","legal"],"category":"personal"},{"id":"t_3041","title":"Save the cameras from last few days","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3042","title":"Change Issa's and Yasamine's swimming appointment in AppClose","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3043","title":"Owe my mom $75 for Sephora","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["financial","family"],"category":"personal"},{"id":"t_3044","title":"Add in that Issa was laying down, also the lots of hugs","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3045","title":"Send a message to Sadaf about going to doctor appointment","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids","health"],"category":"personal"},{"id":"t_3046","title":"Do my journals","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3047","title":"CHECK the transcription for the doctors thing and send it to them","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["health","legal"],"category":"personal"},{"id":"t_3048","title":"Plan a message to Sadaf about Issa's appointment","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3049","title":"Plan for Lauren","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3050","title":"Send email to Ashley - today's summary, the withholding","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["legal"],"category":"personal"},{"id":"t_3051","title":"Send Sadaf a picture of health card","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids","health"],"category":"personal"},{"id":"t_3052","title":"Cancel the swimming lessons","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3053","title":"Book Yasamine dentist appointment","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids","health"],"category":"personal"},{"id":"t_3054","title":"Book the vaccines appointments","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids","health"],"category":"personal"},{"id":"t_3055","title":"Book Issa's haircut","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3056","title":"Book my haircut","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3057","title":"Cancel Issa and Yasi swimming appointment","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3058","title":"Do my personal to-dos in Claude","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3059","title":"Set up Telegram for Personal","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3060","title":"Finish my journals","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_3061","title":"Send screen recording of interaction where Sadaf made an ugly face","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["legal"],"category":"personal"},{"id":"t_3062","title":"Respond to Seesaw","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_3063","title":"Confirm dentist appointment + add to calendars","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["health"],"category":"personal"},{"id":"t_3064","title":"Confirm eye doctor appointment + add to calendar","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["health"],"category":"personal"},{"id":"t_4001","title":"Review the Document I sent out and send to Bret and team","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4002","title":"Ask about Orders page","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4003","title":"Follow up with Selvam","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4004","title":"Book time with Tony","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4005","title":"Book time with Ken","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4006","title":"Save files from BEN","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4007","title":"Message CK","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4008","title":"Think about Vision","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4009","title":"Check my Slack for tomorrow","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_4010","title":"Follow up with Shelly and Ashley","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["legal"],"category":"personal"},{"id":"t_4011","title":"Write a note to Ashley about School - message","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["legal","kids"],"category":"personal"},{"id":"t_4012","title":"Grab the kids clothes + the mail","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_4013","title":"Respond to Sadaf","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_4014","title":"Put Issa's sleep in","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_4015","title":"Send Sadaf a message about the headache thing","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4016","title":"Send Sadaf a message about Yasamine's skin","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4017","title":"Review what Diana sent","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4018","title":"Determine EOL for SSRS - ask from BEN","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4019","title":"Reach out to Selvam to see if he's interested in doing some data work","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4020","title":"Message Shelly and Ashley with the questions","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["legal"],"category":"personal"},{"id":"t_4021","title":"Make the returns H&M","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_4022","title":"Load granola, figure out AI stuff","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4023","title":"Ask Ben if there is more data about Orders","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4024","title":"Schedule time with Tony","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4025","title":"Read Diana's slack message","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4026","title":"Follow up with IT Guy about analytics","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4027","title":"Message CK to say hi","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4028","title":"Pray Zuhr","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["health"],"category":"work"},{"id":"t_4029","title":"Look into the data that BEN sent","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4030","title":"Work on the Orders page first","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["work"],"category":"work"},{"id":"t_4031","title":"Get HAIRCUT","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_4032","title":"Pack the box for Walmart","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_4033","title":"Do my journals for sure","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_4034","title":"Buy the keyboard","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_4035","title":"Add in keyboard to business expenses","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["financial"],"category":"personal"},{"id":"t_4036","title":"Find boxes for keyboard/rolling thing","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_4037","title":"Pay my lawyers","note":"","createdAt":"2026-03-21T12:00:00Z","completedAt":null,"tags":["legal","financial"],"category":"personal"}]},{"id":"this-week","title":"This Week","color":"#8b5cf6","tasks":[]},{"id":"today","title":"Today","color":"#3b82f6","tasks":[]},{"id":"things-to-buy","title":"Things to Buy","color":"#f59e0b","tasks":[{"id":"t_2001","title":"Buy the dates from Hikmat","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_2002","title":"Buy books on divorce for kids","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_2003","title":"Buy a journal for Issa","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_2004","title":"Buy pirate sheets","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_2005","title":"Buy Issa winter gear","note":"Boots, winter jacket, gloves, balaclava, snow suit","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_2006","title":"Buy Yasamine winter gear","note":"Same as Issa \u2014 boots, jacket, gloves, balaclava, snow suit","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_2007","title":"Buy lunch stuff for kids","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_2008","title":"Buy bento box","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_2009","title":"Buy a leaf","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_2010","title":"Buy oliver labels","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["kids"],"category":"personal"},{"id":"t_2011","title":"Buy a new keyboard","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":[],"category":"personal"},{"id":"t_2012","title":"Buy my mom the jahnamaz","note":"","createdAt":"2026-03-10T13:00:00Z","completedAt":null,"tags":["family"],"category":"personal"}]},{"id":"done","title":"Done","color":"#22c55e","tasks":[]}],"goals":[],"debts":[],"suggestions":[{"id":"s_001","type":"merge","taskIds":["t_3052","t_3057","t_3042"],"description":"3 tasks about swimming \u2014 merge into one","before":null,"after":"Cancel Issa & Yasamine's swimming lessons and update AppClose","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_002","type":"merge","taskIds":["t_3005","t_3033"],"description":"2 tasks about taxes \u2014 merge into one","before":null,"after":"File 2025 personal taxes","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_003","type":"merge","taskIds":["t_3023","t_3054"],"description":"2 tasks about booking vaccines \u2014 merge into one","before":null,"after":"Book vaccine appointments for the kids","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_004","type":"merge","taskIds":["t_3046","t_3060"],"description":"2 tasks about journals \u2014 merge into one","before":null,"after":"Catch up on journal entries","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_005","type":"merge","taskIds":["t_3045","t_3048"],"description":"2 tasks about messaging Sadaf re doctor appointment \u2014 merge","before":null,"after":"Message Sadaf about Issa's doctor appointment","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_006","type":"merge","taskIds":["t_3039","t_3040"],"description":"2 tasks about summarizing doctor appointment \u2014 merge","before":null,"after":"Summarize Issa's skin doctor appointment and send to Ashley & Shelly","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_007","type":"rewrite","taskIds":["t_3007"],"description":"Clarify vague title with multiple items","before":"Book appointment for hair creme + lip thing + follow up on colon","after":"Book dermatology appointment (hair, lip treatment, colon follow-up)","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_008","type":"rewrite","taskIds":["t_3035"],"description":"Clarify unclear abbreviation","before":"GLA school re admin Issa","after":"Contact GLA school about re-admitting Issa","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_009","type":"rewrite","taskIds":["t_3044"],"description":"Clarify \u2014 this looks like a journal note, not a task","before":"Add in that Issa was laying down, also the lots of hugs","after":"Journal: Add note about Issa laying down and giving lots of hugs","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_010","type":"rewrite","taskIds":["t_3009"],"description":"Make the date and action clearer","before":"April 7th Dr Panowyk - call them","after":"Call Dr. Panowyk to confirm April 7th appointment","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_011","type":"move","taskIds":["t_3009"],"description":"April 7th is less than a month away \u2014 move to This Week","before":null,"after":null,"targetSection":"this-week","status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_012","type":"move","taskIds":["t_3005"],"description":"Tax deadline approaching (April 30) \u2014 move to This Week","before":null,"after":null,"targetSection":"this-week","status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_013","type":"archive","taskIds":["t_3058"],"description":"Self-referential task \u2014 you're literally managing tasks in Claude right now","before":null,"after":null,"targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_014","type":"rewrite","taskIds":["t_3047"],"description":"Clean up ALL CAPS and make action clearer","before":"CHECK the transcription for the doctors thing and send it to them","after":"Review doctor appointment transcription and send to Ashley & Shelly","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_015","type":"rewrite","taskIds":["t_3015"],"description":"Make the task more specific","before":"Sign up for the thing Sister Salma sent (for the kids)","after":"Sign up kids for Peace Within Home program (Sister Salma's recommendation)","targetSection":null,"status":"pending","createdAt":"2026-03-10T15:00:00Z"},{"id":"s_016","type":"merge","taskIds":["t_4007","t_4027"],"description":"2 tasks about messaging CK \u2014 merge into one","before":null,"after":"Message CK","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"},{"id":"s_017","type":"merge","taskIds":["t_4002","t_4023","t_4030"],"description":"3 tasks about the Orders page \u2014 merge into one","before":null,"after":"Work on Orders page (ask Ben about data, build it out)","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"},{"id":"s_018","type":"merge","taskIds":["t_4003","t_4019"],"description":"2 tasks about following up with Selvam \u2014 merge","before":null,"after":"Follow up with Selvam (check interest in data work)","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"},{"id":"s_019","type":"merge","taskIds":["t_4004","t_4024"],"description":"2 tasks about booking time with Tony \u2014 merge","before":null,"after":"Book time with Tony","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"},{"id":"s_020","type":"merge","taskIds":["t_4017","t_4025"],"description":"2 tasks about Diana's messages \u2014 merge","before":null,"after":"Review what Diana sent (Slack + other)","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"},{"id":"s_021","type":"merge","taskIds":["t_4010","t_4020"],"description":"2 tasks about following up with Shelly/Ashley \u2014 merge","before":null,"after":"Follow up with Shelly and Ashley with questions","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"},{"id":"s_022","type":"merge","taskIds":["t_2011","t_4034"],"description":"2 tasks about buying a keyboard \u2014 merge","before":null,"after":"Buy a new keyboard","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"},{"id":"s_023","type":"merge","taskIds":["t_3056","t_4031"],"description":"2 tasks about getting a haircut \u2014 merge","before":null,"after":"Get a haircut","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"},{"id":"s_024","type":"merge","taskIds":["t_3016","t_4014"],"description":"2 tasks about Issa's sleep tracking \u2014 merge","before":null,"after":"Check/log Issa's sleep times when in my care","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"},{"id":"s_025","type":"merge","taskIds":["t_3046","t_3060","t_4033"],"description":"3 tasks about journals \u2014 merge all (replaces s_004)","before":null,"after":"Catch up on journal entries","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"},{"id":"s_026","type":"rewrite","taskIds":["t_4031"],"description":"Fix ALL CAPS title","before":"Get HAIRCUT","after":"Get a haircut","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"},{"id":"s_027","type":"rewrite","taskIds":["t_4029"],"description":"Fix grammar in title","before":"Look into the data that BEN sent","after":"Look into the data Ben sent","targetSection":null,"status":"pending","createdAt":"2026-03-21T12:00:00Z"}],"suggestionRequest":""};
+
+(function init() {
+  initDarkMode();
+
+  const savedConfig = localStorage.getItem('tb-gh-config');
+  if (savedConfig) {
+    ghConfig = JSON.parse(savedConfig);
+    if (!localStorage.getItem('tb-cache')) {
+      localStorage.setItem('tb-cache', JSON.stringify(SEED_DATA));
+    }
+    const cached = localStorage.getItem('tb-cache');
+    if (cached) {
+      state = JSON.parse(cached);
+      showBoard();
+    }
+    loadFromGitHub().then(() => {
+      if (!state) {
+        document.getElementById('board-screen').classList.add('hidden');
+        document.getElementById('setup-screen').classList.remove('hidden');
+        document.getElementById('setup-screen').classList.add('flex');
+      }
+    });
+  } else {
+    // No GitHub config — use cached data if it exists, otherwise seed
+    const cached = localStorage.getItem('tb-cache');
+    if (cached) {
+      state = JSON.parse(cached);
+    } else {
+      state = JSON.parse(JSON.stringify(SEED_DATA));
+      localStorage.setItem('tb-cache', JSON.stringify(state));
+    }
+    showBoard();
+    setSyncStatus('offline');
+  }
+})();
+</script>
+
+</body>
+</html>
