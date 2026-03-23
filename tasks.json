@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T22:54:20.476Z",
+  "lastModifiedAt": "2026-03-23T22:54:27.592Z",
   "sections": [
     {
       "id": "backlog",
@@ -407,6 +407,15 @@
           "completedAt": null
         },
         {
+          "id": "t_1774274966725",
+          "title": "Respond to Waleed",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T14:09:26.725Z",
+          "completedAt": null
+        },
+        {
           "id": "t_1774306310268",
           "title": "TONIGHT - Put the 300 something into the app",
           "note": "",
@@ -471,15 +480,6 @@
           "tags": [],
           "category": "work",
           "createdAt": "2026-03-22T06:02:29.395Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1774274966725",
-          "title": "Respond to Waleed",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-23T14:09:26.725Z",
           "completedAt": null
         },
         {
