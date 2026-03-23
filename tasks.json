@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T22:53:12.280Z",
+  "lastModifiedAt": "2026-03-23T22:53:14.679Z",
   "sections": [
     {
       "id": "backlog",
@@ -407,15 +407,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774275194795",
-          "title": "schedule a meeting with the team to finalize the kickoff",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-23T14:13:14.795Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774275353155",
           "title": "send a message to AShley about therapy! today. so she can answer tomorrow",
           "note": "",
@@ -567,6 +558,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774275194795",
+          "title": "schedule a meeting with the team to finalize the kickoff",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-23T14:13:14.795Z",
+          "completedAt": "2026-03-23T22:53:14.679Z"
+        },
         {
           "id": "t_1774278002915",
           "title": "Pray Fajr",
