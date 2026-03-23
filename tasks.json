@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T02:35:07.420Z",
+  "lastModifiedAt": "2026-03-23T02:35:17.965Z",
   "sections": [
     {
       "id": "backlog",
@@ -424,7 +424,7 @@
           "title": "Respond to Sadaf",
           "note": "",
           "tags": [],
-          "category": "personal",
+          "category": "case",
           "createdAt": "2026-03-23T02:35:07.420Z",
           "completedAt": null
         }
