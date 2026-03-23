@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T22:54:07.372Z",
+  "lastModifiedAt": "2026-03-23T22:54:10.069Z",
   "sections": [
     {
       "id": "backlog",
@@ -393,7 +393,7 @@
           "title": "Tonight - send the team a response of what we need",
           "note": "",
           "tags": [],
-          "category": "personal",
+          "category": "work",
           "createdAt": "2026-03-23T22:54:07.371Z",
           "completedAt": null
         },
