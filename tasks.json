@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T14:15:57.255Z",
+  "lastModifiedAt": "2026-03-23T15:00:02.916Z",
   "sections": [
     {
       "id": "backlog",
@@ -388,6 +388,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774278002915",
+          "title": "Pray Fajr",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T15:00:02.915Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774275108691",
           "title": "send ashleya nd shelly a summary on sadfas ask to get the airdruyer and the ps5. Also that she wantedt o come in again.",
