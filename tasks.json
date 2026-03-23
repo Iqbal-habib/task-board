@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T02:35:37.468Z",
+  "lastModifiedAt": "2026-03-23T02:35:46.888Z",
   "sections": [
     {
       "id": "backlog",
@@ -419,6 +419,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774233346888",
+          "title": "CHeck Veridian",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T02:35:46.888Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774233329691",
           "title": "Send a message to AShley and Shelly",
