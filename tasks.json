@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T14:10:59.071Z",
+  "lastModifiedAt": "2026-03-23T14:11:04.521Z",
   "sections": [
     {
       "id": "backlog",
@@ -77,15 +77,6 @@
       "title": "This Week",
       "color": "#8b5cf6",
       "tasks": [
-        {
-          "id": "t_1774159349395",
-          "title": "3. Finish up the orders page",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-22T06:02:29.395Z",
-          "completedAt": null
-        },
         {
           "id": "t_1774158283990",
           "title": "Figure out what I am going to do about Dr Panowwkys appoiintment",
@@ -426,6 +417,15 @@
           "tags": [],
           "category": "personal",
           "createdAt": "2026-03-23T14:10:09.631Z",
+          "completedAt": null
+        },
+        {
+          "id": "t_1774159349395",
+          "title": "3. Finish up the orders page",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-22T06:02:29.395Z",
           "completedAt": null
         },
         {
