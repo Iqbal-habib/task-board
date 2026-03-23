@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T02:36:07.220Z",
+  "lastModifiedAt": "2026-03-23T02:36:13.092Z",
   "sections": [
     {
       "id": "backlog",
@@ -424,7 +424,7 @@
           "title": "Clean up work VS CODE",
           "note": "",
           "tags": [],
-          "category": "personal",
+          "category": "work",
           "createdAt": "2026-03-23T02:36:07.219Z",
           "completedAt": null
         },
