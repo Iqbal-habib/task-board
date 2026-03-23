@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T14:11:04.521Z",
+  "lastModifiedAt": "2026-03-23T14:11:06.754Z",
   "sections": [
     {
       "id": "backlog",
@@ -305,17 +305,6 @@
           "category": "case"
         },
         {
-          "id": "t_4001",
-          "title": "1. Send out the Document on the org stuff to Bret and Team on Monday. to finalize",
-          "note": "",
-          "createdAt": "2026-03-21T12:00:00Z",
-          "completedAt": null,
-          "tags": [
-            "work"
-          ],
-          "category": "work"
-        },
-        {
           "id": "t_4008",
           "title": "2. work on V1 of the vision (start with what lauren shared ben in MD file)",
           "note": "",
@@ -418,6 +407,17 @@
           "category": "personal",
           "createdAt": "2026-03-23T14:10:09.631Z",
           "completedAt": null
+        },
+        {
+          "id": "t_4001",
+          "title": "1. Send out the Document on the org stuff to Bret and Team on Monday. to finalize",
+          "note": "",
+          "createdAt": "2026-03-21T12:00:00Z",
+          "completedAt": null,
+          "tags": [
+            "work"
+          ],
+          "category": "work"
         },
         {
           "id": "t_1774159349395",
