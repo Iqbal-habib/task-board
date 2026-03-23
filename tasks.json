@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T02:56:08.090Z",
+  "lastModifiedAt": "2026-03-23T02:56:09.357Z",
   "sections": [
     {
       "id": "backlog",
@@ -436,15 +436,6 @@
           "category": "case",
           "createdAt": "2026-03-23T02:35:29.691Z",
           "completedAt": null
-        },
-        {
-          "id": "t_1774233307420",
-          "title": "Respond to Sadaf",
-          "note": "",
-          "tags": [],
-          "category": "case",
-          "createdAt": "2026-03-23T02:35:07.420Z",
-          "completedAt": null
         }
       ]
     },
@@ -513,6 +504,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774233307420",
+          "title": "Respond to Sadaf",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-23T02:35:07.420Z",
+          "completedAt": "2026-03-23T02:56:09.357Z"
+        },
         {
           "id": "t_1774233346888",
           "title": "CHeck Veridian",
