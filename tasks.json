@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T02:35:54.958Z",
+  "lastModifiedAt": "2026-03-23T02:36:07.220Z",
   "sections": [
     {
       "id": "backlog",
@@ -419,6 +419,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774233367219",
+          "title": "Clean up work VS CODE",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T02:36:07.219Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774233346888",
           "title": "CHeck Veridian",
