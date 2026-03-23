@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T22:51:50.268Z",
+  "lastModifiedAt": "2026-03-23T22:53:09.448Z",
   "sections": [
     {
       "id": "backlog",
@@ -389,21 +389,21 @@
       "color": "#3b82f6",
       "tasks": [
         {
-          "id": "t_1774306310268",
-          "title": "1 - Put the 300 something into the app",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-23T22:51:50.268Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774278002915",
           "title": "Pray Fajr",
           "note": "",
           "tags": [],
           "category": "work",
           "createdAt": "2026-03-23T15:00:02.915Z",
+          "completedAt": null
+        },
+        {
+          "id": "t_1774306310268",
+          "title": "1 - Put the 300 something into the app",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T22:51:50.268Z",
           "completedAt": null
         },
         {
