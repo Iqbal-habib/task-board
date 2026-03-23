@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T15:00:02.916Z",
+  "lastModifiedAt": "2026-03-23T15:00:05.729Z",
   "sections": [
     {
       "id": "backlog",
@@ -393,7 +393,7 @@
           "title": "Pray Fajr",
           "note": "",
           "tags": [],
-          "category": "personal",
+          "category": "work",
           "createdAt": "2026-03-23T15:00:02.915Z",
           "completedAt": null
         },
