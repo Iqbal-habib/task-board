@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T22:55:00.361Z",
+  "lastModifiedAt": "2026-03-23T22:57:21.217Z",
   "sections": [
     {
       "id": "backlog",
@@ -388,6 +388,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774306641217",
+          "title": "kldfjsaklfjdskljf",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T22:57:21.217Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774306500361",
           "title": "TONIGHT - Reveal all the stuff that Ashley sent",
