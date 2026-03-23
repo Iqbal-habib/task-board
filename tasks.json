@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T14:13:14.795Z",
+  "lastModifiedAt": "2026-03-23T14:13:18.339Z",
   "sections": [
     {
       "id": "backlog",
@@ -389,21 +389,21 @@
       "color": "#3b82f6",
       "tasks": [
         {
-          "id": "t_1774275194795",
-          "title": "schedule a meeting with the team to finalize the kickoff",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-23T14:13:14.795Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774275108691",
           "title": "send ashleya nd shelly a summary on sadfas ask to get the airdruyer and the ps5. Also that she wantedt o come in again.",
           "note": "",
           "tags": [],
           "category": "case",
           "createdAt": "2026-03-23T14:11:48.691Z",
+          "completedAt": null
+        },
+        {
+          "id": "t_1774275194795",
+          "title": "schedule a meeting with the team to finalize the kickoff",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-23T14:13:14.795Z",
           "completedAt": null
         },
         {
