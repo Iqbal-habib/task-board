@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T22:54:27.592Z",
+  "lastModifiedAt": "2026-03-23T22:54:29.812Z",
   "sections": [
     {
       "id": "backlog",
@@ -407,15 +407,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774274966725",
-          "title": "Respond to Waleed",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-23T14:09:26.725Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774306310268",
           "title": "TONIGHT - Put the 300 something into the app",
           "note": "",
@@ -576,6 +567,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774274966725",
+          "title": "Respond to Waleed",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T14:09:26.725Z",
+          "completedAt": "2026-03-23T22:54:29.812Z"
+        },
         {
           "id": "t_1774275194795",
           "title": "schedule a meeting with the team to finalize the kickoff",
