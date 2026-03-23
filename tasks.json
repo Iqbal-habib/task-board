@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T02:35:17.965Z",
+  "lastModifiedAt": "2026-03-23T02:35:29.691Z",
   "sections": [
     {
       "id": "backlog",
@@ -419,6 +419,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774233329691",
+          "title": "Send a message to AShley and Shelly",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T02:35:29.691Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774233307420",
           "title": "Respond to Sadaf",
