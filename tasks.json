@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T22:53:53.761Z",
+  "lastModifiedAt": "2026-03-23T22:54:07.372Z",
   "sections": [
     {
       "id": "backlog",
@@ -388,6 +388,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774306447371",
+          "title": "Tonight - send the team a response of what we need",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T22:54:07.371Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774306428085",
           "title": "Tonight - Send Lauren a response",
