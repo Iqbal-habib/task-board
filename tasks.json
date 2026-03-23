@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T02:36:13.092Z",
+  "lastModifiedAt": "2026-03-23T02:56:08.090Z",
   "sections": [
     {
       "id": "backlog",
@@ -429,15 +429,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774233346888",
-          "title": "CHeck Veridian",
-          "note": "",
-          "tags": [],
-          "category": "case",
-          "createdAt": "2026-03-23T02:35:46.888Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774233329691",
           "title": "Send a message to AShley and Shelly",
           "note": "",
@@ -522,6 +513,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774233346888",
+          "title": "CHeck Veridian",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-23T02:35:46.888Z",
+          "completedAt": "2026-03-23T02:56:08.090Z"
+        },
         {
           "id": "t_4030",
           "title": "Work on the Orders page first",
