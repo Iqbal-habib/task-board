@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-24T23:27:42.264Z",
+  "lastModifiedAt": "2026-03-24T23:27:45.565Z",
   "sections": [
     {
       "id": "backlog",
@@ -400,15 +400,6 @@
       "color": "#3b82f6",
       "tasks": [
         {
-          "id": "t_1774394862264",
-          "title": "WORK ON THE ARCHITECTURE STUFF!",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-24T23:27:42.264Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774358204440",
           "title": "Review the stuff for Laurens meeting",
           "note": "",
@@ -433,6 +424,15 @@
           "tags": [],
           "category": "work",
           "createdAt": "2026-03-24T13:15:33.340Z",
+          "completedAt": null
+        },
+        {
+          "id": "t_1774394862264",
+          "title": "WORK ON THE ARCHITECTURE STUFF!",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-24T23:27:42.264Z",
           "completedAt": null
         },
         {
