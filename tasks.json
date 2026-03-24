@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-24T01:00:36.861Z",
+  "lastModifiedAt": "2026-03-24T01:00:37.911Z",
   "sections": [
     {
       "id": "backlog",
@@ -434,15 +434,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774275009631",
-          "title": "Put in 300 into the kids RESPS (100 Bahar, 100, Arash, 100 Mom, 10 dad or 20, 30 from Khalid Rafhee",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-23T14:10:09.631Z",
-          "completedAt": null
-        },
-        {
           "id": "t_4001",
           "title": "1. Send out the Document on the org stuff to Bret and Team on Monday. to finalize",
           "note": "",
@@ -567,6 +558,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774275009631",
+          "title": "Put in 300 into the kids RESPS (100 Bahar, 100, Arash, 100 Mom, 10 dad or 20, 30 from Khalid Rafhee",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T14:10:09.631Z",
+          "completedAt": "2026-03-24T01:00:37.911Z"
+        },
         {
           "id": "t_1774306310268",
           "title": "TONIGHT - Put the 300 something into the app",
