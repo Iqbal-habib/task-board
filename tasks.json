@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-24T13:15:42.744Z",
+  "lastModifiedAt": "2026-03-24T13:15:44.394Z",
   "sections": [
     {
       "id": "backlog",
@@ -409,15 +409,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774159349395",
-          "title": "3. Finish up the orders page",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-22T06:02:29.395Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774306500361",
           "title": "TONIGHT - Reveal all the stuff that Ashley sent",
           "note": "",
@@ -538,6 +529,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774159349395",
+          "title": "3. Finish up the orders page",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-22T06:02:29.395Z",
+          "completedAt": "2026-03-24T13:15:44.394Z"
+        },
         {
           "id": "t_4001",
           "title": "1. Send out the Document on the org stuff to Bret and Team on Monday. to finalize",
