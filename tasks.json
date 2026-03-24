@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-24T01:01:33.011Z",
+  "lastModifiedAt": "2026-03-24T13:15:24.512Z",
   "sections": [
     {
       "id": "backlog",
@@ -416,17 +416,6 @@
           "completedAt": null
         },
         {
-          "id": "t_4001",
-          "title": "1. Send out the Document on the org stuff to Bret and Team on Monday. to finalize",
-          "note": "",
-          "createdAt": "2026-03-21T12:00:00Z",
-          "completedAt": null,
-          "tags": [
-            "work"
-          ],
-          "category": "work"
-        },
-        {
           "id": "t_4008",
           "title": "2. work on V1 of the vision (start with what lauren shared ben in MD file)",
           "note": "",
@@ -540,6 +529,17 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_4001",
+          "title": "1. Send out the Document on the org stuff to Bret and Team on Monday. to finalize",
+          "note": "",
+          "createdAt": "2026-03-21T12:00:00Z",
+          "completedAt": "2026-03-24T13:15:24.512Z",
+          "tags": [
+            "work"
+          ],
+          "category": "work"
+        },
         {
           "id": "t_1774306428085",
           "title": "Tonight - Send Lauren a response",
