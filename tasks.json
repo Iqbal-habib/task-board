@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-24T13:15:36.537Z",
+  "lastModifiedAt": "2026-03-24T13:15:40.068Z",
   "sections": [
     {
       "id": "backlog",
@@ -77,6 +77,17 @@
       "title": "This Week",
       "color": "#8b5cf6",
       "tasks": [
+        {
+          "id": "t_4008",
+          "title": "2. work on V1 of the vision (start with what lauren shared ben in MD file)",
+          "note": "",
+          "createdAt": "2026-03-21T12:00:00Z",
+          "completedAt": null,
+          "tags": [
+            "work"
+          ],
+          "category": "work"
+        },
         {
           "id": "t_1774158283990",
           "title": "Figure out what I am going to do about Dr Panowwkys appoiintment",
@@ -423,17 +434,6 @@
           "category": "case",
           "createdAt": "2026-03-23T14:15:53.155Z",
           "completedAt": null
-        },
-        {
-          "id": "t_4008",
-          "title": "2. work on V1 of the vision (start with what lauren shared ben in MD file)",
-          "note": "",
-          "createdAt": "2026-03-21T12:00:00Z",
-          "completedAt": null,
-          "tags": [
-            "work"
-          ],
-          "category": "work"
         },
         {
           "id": "t_1774159349395",
