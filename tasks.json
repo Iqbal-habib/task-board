@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-23T22:57:31.219Z",
+  "lastModifiedAt": "2026-03-24T01:00:36.861Z",
   "sections": [
     {
       "id": "backlog",
@@ -416,15 +416,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774306310268",
-          "title": "TONIGHT - Put the 300 something into the app",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-23T22:51:50.268Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774275108691",
           "title": "send ashleya nd shelly a summary on sadfas ask to get the airdruyer and the ps5. Also that she wantedt o come in again.",
           "note": "",
@@ -576,6 +567,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774306310268",
+          "title": "TONIGHT - Put the 300 something into the app",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T22:51:50.268Z",
+          "completedAt": "2026-03-24T01:00:36.861Z"
+        },
         {
           "id": "t_1774274966725",
           "title": "Respond to Waleed",
