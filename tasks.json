@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-24T13:15:40.068Z",
+  "lastModifiedAt": "2026-03-24T13:15:42.744Z",
   "sections": [
     {
       "id": "backlog",
@@ -409,6 +409,15 @@
           "completedAt": null
         },
         {
+          "id": "t_1774159349395",
+          "title": "3. Finish up the orders page",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-22T06:02:29.395Z",
+          "completedAt": null
+        },
+        {
           "id": "t_1774306500361",
           "title": "TONIGHT - Reveal all the stuff that Ashley sent",
           "note": "",
@@ -433,15 +442,6 @@
           "tags": [],
           "category": "case",
           "createdAt": "2026-03-23T14:15:53.155Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1774159349395",
-          "title": "3. Finish up the orders page",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-22T06:02:29.395Z",
           "completedAt": null
         },
         {
