@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-24T13:15:24.512Z",
+  "lastModifiedAt": "2026-03-24T13:15:33.341Z",
   "sections": [
     {
       "id": "backlog",
@@ -388,6 +388,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774358133340",
+          "title": "Do another iteration on the definitions of done",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-24T13:15:33.340Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774306500361",
           "title": "TONIGHT - Reveal all the stuff that Ashley sent",
