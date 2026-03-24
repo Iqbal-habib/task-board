@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-24T13:16:56.850Z",
+  "lastModifiedAt": "2026-03-24T13:17:00.088Z",
   "sections": [
     {
       "id": "backlog",
@@ -400,21 +400,21 @@
       "color": "#3b82f6",
       "tasks": [
         {
+          "id": "t_1774358204440",
+          "title": "Review the stuff for Laurens meeting",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-24T13:16:44.440Z",
+          "completedAt": null
+        },
+        {
           "id": "t_1774358216849",
           "title": "Review the TMFfourm deck, the webstie, before Jeffs meeting",
           "note": "",
           "tags": [],
           "category": "personal",
           "createdAt": "2026-03-24T13:16:56.849Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1774358204440",
-          "title": "Review the stuff for Laurens meeting",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-24T13:16:44.440Z",
           "completedAt": null
         },
         {
