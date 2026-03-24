@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-24T01:01:29.544Z",
+  "lastModifiedAt": "2026-03-24T01:01:33.011Z",
   "sections": [
     {
       "id": "backlog",
@@ -398,15 +398,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774306428085",
-          "title": "Tonight - Send Lauren a response",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-23T22:53:48.085Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774275108691",
           "title": "send ashleya nd shelly a summary on sadfas ask to get the airdruyer and the ps5. Also that she wantedt o come in again.",
           "note": "",
@@ -549,6 +540,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774306428085",
+          "title": "Tonight - Send Lauren a response",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-23T22:53:48.085Z",
+          "completedAt": "2026-03-24T01:01:33.011Z"
+        },
         {
           "id": "t_1774306447371",
           "title": "Tonight - send the team a response of what we need",
