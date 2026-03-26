@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-24T23:27:45.565Z",
+  "lastModifiedAt": "2026-03-26T14:38:14.337Z",
   "sections": [
     {
       "id": "backlog",
@@ -399,6 +399,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774535894337",
+          "title": "Pay the lawyers",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-26T14:38:14.337Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774358204440",
           "title": "Review the stuff for Laurens meeting",
