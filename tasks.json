@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-26T14:38:17.940Z",
+  "lastModifiedAt": "2026-03-26T14:38:35.927Z",
   "sections": [
     {
       "id": "backlog",
@@ -399,6 +399,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774535915927",
+          "title": "Take over the veridian, enbridge, and other bill",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-26T14:38:35.927Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774535894337",
           "title": "Pay the lawyers",
