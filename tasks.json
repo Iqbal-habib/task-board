@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-26T14:38:14.337Z",
+  "lastModifiedAt": "2026-03-26T14:38:17.940Z",
   "sections": [
     {
       "id": "backlog",
@@ -404,7 +404,7 @@
           "title": "Pay the lawyers",
           "note": "",
           "tags": [],
-          "category": "personal",
+          "category": "case",
           "createdAt": "2026-03-26T14:38:14.337Z",
           "completedAt": null
         },
