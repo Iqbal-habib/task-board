@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T20:20:33.178Z",
+  "lastModifiedAt": "2026-03-27T20:20:40.752Z",
   "sections": [
     {
       "id": "backlog",
@@ -400,6 +400,15 @@
       "color": "#3b82f6",
       "tasks": [
         {
+          "id": "t_1774623932541",
+          "title": "BRING IN MY OLD NOTES from obisdian",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-27T15:05:32.541Z",
+          "completedAt": null
+        },
+        {
           "id": "t_1774639884855",
           "title": "Book Haricut for Issa",
           "note": "",
@@ -424,15 +433,6 @@
           "tags": [],
           "category": "case",
           "createdAt": "2026-03-27T15:12:52.704Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1774623932541",
-          "title": "BRING IN MY OLD NOTES from obisdian",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-27T15:05:32.541Z",
           "completedAt": null
         },
         {
