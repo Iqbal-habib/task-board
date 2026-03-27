@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T15:05:19.482Z",
+  "lastModifiedAt": "2026-03-27T15:05:32.541Z",
   "sections": [
     {
       "id": "backlog",
@@ -399,6 +399,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774623932541",
+          "title": "BRING IN MY OLD NOTES from obisdian",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T15:05:32.541Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774622269484",
           "title": "Test out the new keyboard",
