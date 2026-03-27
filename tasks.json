@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T19:31:15.663Z",
+  "lastModifiedAt": "2026-03-27T19:31:24.855Z",
   "sections": [
     {
       "id": "backlog",
@@ -399,6 +399,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774639884855",
+          "title": "Book Haricut for Issa",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T19:31:24.855Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774639875663",
           "title": "Cancel Swimming",
