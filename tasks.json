@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T14:36:53.643Z",
+  "lastModifiedAt": "2026-03-27T14:37:00.996Z",
   "sections": [
     {
       "id": "backlog",
@@ -399,6 +399,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774622220995",
+          "title": "Call Veridian",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T14:37:00.995Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774535915927",
           "title": "Take over the veridian, enbridge, and other bill",
