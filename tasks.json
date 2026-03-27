@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T14:37:49.484Z",
+  "lastModifiedAt": "2026-03-27T15:05:09.865Z",
   "sections": [
     {
       "id": "backlog",
@@ -399,6 +399,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774623909864",
+          "title": "Fulkl clean up my VS code",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T15:05:09.864Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774622269484",
           "title": "Test out the new keyboard",
