@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T17:29:47.830Z",
+  "lastModifiedAt": "2026-03-27T17:29:51.992Z",
   "sections": [
     {
       "id": "backlog",
@@ -400,15 +400,6 @@
       "color": "#3b82f6",
       "tasks": [
         {
-          "id": "t_1774632587830",
-          "title": "Send sadaf a message saying that the only way to deal with the enbridge, was to cancel her online account and then sign up my email so that I can login and set up my billing. I should have access on Monday./Turesday so that I can go in",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-27T17:29:47.830Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774624372704",
           "title": "Send Sadaf a message about Zaytoon TODAY (on Friday)",
           "note": "",
@@ -451,6 +442,15 @@
           "tags": [],
           "category": "work",
           "createdAt": "2026-03-27T15:05:39.004Z",
+          "completedAt": null
+        },
+        {
+          "id": "t_1774632587830",
+          "title": "Send sadaf a message saying that the only way to deal with the enbridge, was to cancel her online account and then sign up my email so that I can login and set up my billing. I should have access on Monday./Turesday so that I can go in",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-27T17:29:47.830Z",
           "completedAt": null
         },
         {
