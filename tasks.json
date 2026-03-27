@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T14:36:49.127Z",
+  "lastModifiedAt": "2026-03-27T14:36:50.977Z",
   "sections": [
     {
       "id": "backlog",
@@ -454,15 +454,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774274961845",
-          "title": "Message Bahar asking if we have Eid Cards or generic cards",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-23T14:09:21.845Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774233329691",
           "title": "Send a message to AShley and Shelly",
           "note": "",
@@ -538,6 +529,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774274961845",
+          "title": "Message Bahar asking if we have Eid Cards or generic cards",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-23T14:09:21.845Z",
+          "completedAt": "2026-03-27T14:36:50.977Z"
+        },
         {
           "id": "t_1774274950959",
           "title": "Buy Issas teachers *4 or 5 tims cards",
