@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T20:20:46.895Z",
+  "lastModifiedAt": "2026-03-27T20:20:50.946Z",
   "sections": [
     {
       "id": "backlog",
@@ -463,15 +463,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774622263350",
-          "title": "Respond to the Keyboard case people",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-27T14:37:43.350Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774622231777",
           "title": "Call TD insurrance",
           "note": "",
@@ -592,6 +583,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774622263350",
+          "title": "Respond to the Keyboard case people",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T14:37:43.350Z",
+          "completedAt": "2026-03-27T20:20:50.946Z"
+        },
         {
           "id": "t_1774622225169",
           "title": "Call Enbriudge",
