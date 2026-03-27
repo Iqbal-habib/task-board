@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T14:37:11.777Z",
+  "lastModifiedAt": "2026-03-27T14:37:13.877Z",
   "sections": [
     {
       "id": "backlog",
@@ -427,15 +427,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774535915927",
-          "title": "Take over the veridian, enbridge, and other bill",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-26T14:38:35.927Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774622184189",
           "title": "Do a final pass of the kickoff deck + Set a time for it",
           "note": "",
@@ -547,6 +538,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774535915927",
+          "title": "Take over the veridian, enbridge, and other bill",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-26T14:38:35.927Z",
+          "completedAt": "2026-03-27T14:37:13.877Z"
+        },
         {
           "id": "t_1774306500361",
           "title": "TONIGHT - Reveal all the stuff that Ashley sent",
