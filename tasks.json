@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T15:05:15.983Z",
+  "lastModifiedAt": "2026-03-27T15:05:17.832Z",
   "sections": [
     {
       "id": "backlog",
@@ -400,15 +400,6 @@
       "color": "#3b82f6",
       "tasks": [
         {
-          "id": "t_1774623915983",
-          "title": "Book 1-1 with Bret",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-27T15:05:15.983Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774623909864",
           "title": "Fulkl clean up my VS code",
           "note": "",
@@ -424,6 +415,15 @@
           "tags": [],
           "category": "personal",
           "createdAt": "2026-03-27T14:37:49.484Z",
+          "completedAt": null
+        },
+        {
+          "id": "t_1774623915983",
+          "title": "Book 1-1 with Bret",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-27T15:05:15.983Z",
           "completedAt": null
         },
         {
