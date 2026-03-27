@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T14:36:03.010Z",
+  "lastModifiedAt": "2026-03-27T14:36:05.827Z",
   "sections": [
     {
       "id": "backlog",
@@ -418,15 +418,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774358216849",
-          "title": "Review the TMFfourm deck, the webstie, before Jeffs meeting",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-24T13:16:56.849Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774358133340",
           "title": "Do another iteration on the definitions of done",
           "note": "",
@@ -565,6 +556,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774358216849",
+          "title": "Review the TMFfourm deck, the webstie, before Jeffs meeting",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-24T13:16:56.849Z",
+          "completedAt": "2026-03-27T14:36:05.827Z"
+        },
         {
           "id": "t_1774358204440",
           "title": "Review the stuff for Laurens meeting",
