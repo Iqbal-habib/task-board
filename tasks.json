@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T19:31:24.855Z",
+  "lastModifiedAt": "2026-03-27T20:20:30.696Z",
   "sections": [
     {
       "id": "backlog",
@@ -400,6 +400,15 @@
       "color": "#3b82f6",
       "tasks": [
         {
+          "id": "t_1774623939004",
+          "title": "Resdtucuture my VS CODE COMPLETELY!",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-27T15:05:39.004Z",
+          "completedAt": null
+        },
+        {
           "id": "t_1774639884855",
           "title": "Book Haricut for Issa",
           "note": "",
@@ -451,15 +460,6 @@
           "tags": [],
           "category": "personal",
           "createdAt": "2026-03-27T14:37:49.484Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1774623939004",
-          "title": "Resdtucuture my VS CODE COMPLETELY!",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-27T15:05:39.004Z",
           "completedAt": null
         },
         {
