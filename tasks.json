@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T17:29:51.992Z",
+  "lastModifiedAt": "2026-03-27T19:31:15.663Z",
   "sections": [
     {
       "id": "backlog",
@@ -399,6 +399,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774639875663",
+          "title": "Cancel Swimming",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T19:31:15.663Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774624372704",
           "title": "Send Sadaf a message about Zaytoon TODAY (on Friday)",
