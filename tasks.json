@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T15:12:52.704Z",
+  "lastModifiedAt": "2026-03-27T15:12:56.357Z",
   "sections": [
     {
       "id": "backlog",
@@ -404,7 +404,7 @@
           "title": "Send Sadaf a message about Zaytoon TODAY (on Friday)",
           "note": "",
           "tags": [],
-          "category": "personal",
+          "category": "case",
           "createdAt": "2026-03-27T15:12:52.704Z",
           "completedAt": null
         },
