@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T20:20:31.846Z",
+  "lastModifiedAt": "2026-03-27T20:20:33.178Z",
   "sections": [
     {
       "id": "backlog",
@@ -481,15 +481,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774623909864",
-          "title": "Fulkl clean up my VS code",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-27T15:05:09.864Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774622242060",
           "title": "Pray Fajr",
           "note": "",
@@ -637,6 +628,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774623909864",
+          "title": "Fulkl clean up my VS code",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-27T15:05:09.864Z",
+          "completedAt": "2026-03-27T20:20:33.178Z"
+        },
         {
           "id": "t_1774623939004",
           "title": "Resdtucuture my VS CODE COMPLETELY!",
