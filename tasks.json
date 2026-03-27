@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-26T14:38:35.927Z",
+  "lastModifiedAt": "2026-03-27T14:36:00.837Z",
   "sections": [
     {
       "id": "backlog",
@@ -400,6 +400,15 @@
       "color": "#3b82f6",
       "tasks": [
         {
+          "id": "t_1774358204440",
+          "title": "Review the stuff for Laurens meeting",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-24T13:16:44.440Z",
+          "completedAt": null
+        },
+        {
           "id": "t_1774535915927",
           "title": "Take over the veridian, enbridge, and other bill",
           "note": "",
@@ -415,15 +424,6 @@
           "tags": [],
           "category": "case",
           "createdAt": "2026-03-26T14:38:14.337Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1774358204440",
-          "title": "Review the stuff for Laurens meeting",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-24T13:16:44.440Z",
           "completedAt": null
         },
         {
