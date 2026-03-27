@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T20:20:42.379Z",
+  "lastModifiedAt": "2026-03-27T20:20:43.662Z",
   "sections": [
     {
       "id": "backlog",
@@ -472,15 +472,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774622242060",
-          "title": "Pray Fajr",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-27T14:37:22.060Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774622220995",
           "title": "Call Veridian",
           "note": "",
@@ -619,6 +610,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774622242060",
+          "title": "Pray Fajr",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T14:37:22.060Z",
+          "completedAt": "2026-03-27T20:20:43.662Z"
+        },
         {
           "id": "t_1774623932541",
           "title": "BRING IN MY OLD NOTES from obisdian",
