@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T14:37:26.297Z",
+  "lastModifiedAt": "2026-03-27T14:37:43.350Z",
   "sections": [
     {
       "id": "backlog",
@@ -399,6 +399,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774622263350",
+          "title": "Respond to the Keyboard case people",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T14:37:43.350Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774622242060",
           "title": "Pray Fajr",
