@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T14:36:09.527Z",
+  "lastModifiedAt": "2026-03-27T14:36:24.191Z",
   "sections": [
     {
       "id": "backlog",
@@ -399,6 +399,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774622184189",
+          "title": "Do a final pass of the kickoff deck + Set a time for it",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T14:36:24.189Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774535915927",
           "title": "Take over the veridian, enbridge, and other bill",
