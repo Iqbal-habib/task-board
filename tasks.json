@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T14:36:26.192Z",
+  "lastModifiedAt": "2026-03-27T14:36:41.011Z",
   "sections": [
     {
       "id": "backlog",
@@ -418,15 +418,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774535894337",
-          "title": "Pay the lawyers",
-          "note": "",
-          "tags": [],
-          "category": "case",
-          "createdAt": "2026-03-26T14:38:14.337Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774394862264",
           "title": "WORK ON THE ARCHITECTURE STUFF!",
           "note": "",
@@ -556,6 +547,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774535894337",
+          "title": "Pay the lawyers",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-26T14:38:14.337Z",
+          "completedAt": "2026-03-27T14:36:41.011Z"
+        },
         {
           "id": "t_1774358133340",
           "title": "Do another iteration on the definitions of done",
