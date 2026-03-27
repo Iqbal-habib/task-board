@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T15:12:56.357Z",
+  "lastModifiedAt": "2026-03-27T15:36:53.043Z",
   "sections": [
     {
       "id": "backlog",
@@ -399,6 +399,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774625813043",
+          "title": "Figure out the best way to bill for IQmetrix",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T15:36:53.043Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774624372704",
           "title": "Send Sadaf a message about Zaytoon TODAY (on Friday)",
