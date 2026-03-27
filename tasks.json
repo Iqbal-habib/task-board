@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T20:20:40.752Z",
+  "lastModifiedAt": "2026-03-27T20:20:42.379Z",
   "sections": [
     {
       "id": "backlog",
@@ -400,15 +400,6 @@
       "color": "#3b82f6",
       "tasks": [
         {
-          "id": "t_1774623932541",
-          "title": "BRING IN MY OLD NOTES from obisdian",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-27T15:05:32.541Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774639884855",
           "title": "Book Haricut for Issa",
           "note": "",
@@ -628,6 +619,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774623932541",
+          "title": "BRING IN MY OLD NOTES from obisdian",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-27T15:05:32.541Z",
+          "completedAt": "2026-03-27T20:20:42.379Z"
+        },
         {
           "id": "t_1774623909864",
           "title": "Fulkl clean up my VS code",
