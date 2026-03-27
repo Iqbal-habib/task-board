@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T15:05:40.829Z",
+  "lastModifiedAt": "2026-03-27T15:12:52.704Z",
   "sections": [
     {
       "id": "backlog",
@@ -399,6 +399,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774624372704",
+          "title": "Send Sadaf a message about Zaytoon TODAY (on Friday)",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T15:12:52.704Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774623932541",
           "title": "BRING IN MY OLD NOTES from obisdian",
