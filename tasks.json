@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:35:03.567Z",
+  "lastModifiedAt": "2026-03-28T14:35:18.842Z",
   "sections": [
     {
       "id": "backlog",
@@ -408,6 +408,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774708518842",
+          "title": "Buy my keyboard",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-28T14:35:18.842Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774708301231",
           "title": "P1 - Finish the response doc in full",
