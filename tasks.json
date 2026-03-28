@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:31:41.231Z",
+  "lastModifiedAt": "2026-03-28T14:31:45.311Z",
   "sections": [
     {
       "id": "backlog",
@@ -408,6 +408,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774708305311",
+          "title": "Finish my jouirnal",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-28T14:31:45.311Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774708301231",
           "title": "Finish the response doc in full",
