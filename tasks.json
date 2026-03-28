@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:30:58.539Z",
+  "lastModifiedAt": "2026-03-28T14:31:02.373Z",
   "sections": [
     {
       "id": "backlog",
@@ -488,15 +488,6 @@
           "category": "work",
           "createdAt": "2026-03-24T23:27:42.264Z",
           "completedAt": null
-        },
-        {
-          "id": "t_1774233329691",
-          "title": "Send a message to AShley and Shelly",
-          "note": "",
-          "tags": [],
-          "category": "case",
-          "createdAt": "2026-03-23T02:35:29.691Z",
-          "completedAt": null
         }
       ]
     },
@@ -565,6 +556,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774233329691",
+          "title": "Send a message to AShley and Shelly",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-23T02:35:29.691Z",
+          "completedAt": "2026-03-28T14:31:02.373Z"
+        },
         {
           "id": "t_1774275353155",
           "title": "send a message to AShley about therapy! today. so she can answer tomorrow",
