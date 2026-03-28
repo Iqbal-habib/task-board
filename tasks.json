@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:30:41.339Z",
+  "lastModifiedAt": "2026-03-28T14:30:58.539Z",
   "sections": [
     {
       "id": "backlog",
@@ -490,15 +490,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774275353155",
-          "title": "send a message to AShley about therapy! today. so she can answer tomorrow",
-          "note": "",
-          "tags": [],
-          "category": "case",
-          "createdAt": "2026-03-23T14:15:53.155Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774233329691",
           "title": "Send a message to AShley and Shelly",
           "note": "",
@@ -574,6 +565,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774275353155",
+          "title": "send a message to AShley about therapy! today. so she can answer tomorrow",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-23T14:15:53.155Z",
+          "completedAt": "2026-03-28T14:30:58.539Z"
+        },
         {
           "id": "t_1774275108691",
           "title": "send ashleya nd shelly a summary on sadfas ask to get the airdruyer and the ps5. Also that she wantedt o come in again.",
