@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:34:45.181Z",
+  "lastModifiedAt": "2026-03-28T14:34:47.133Z",
   "sections": [
     {
       "id": "backlog",
@@ -409,6 +409,15 @@
       "color": "#3b82f6",
       "tasks": [
         {
+          "id": "t_1774708301231",
+          "title": "P1 - Finish the response doc in full",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-28T14:31:41.231Z",
+          "completedAt": null
+        },
+        {
           "id": "t_1774708316111",
           "title": "do all my audio recordings and google stuff. catch up",
           "note": "",
@@ -424,15 +433,6 @@
           "tags": [],
           "category": "case",
           "createdAt": "2026-03-28T14:31:45.311Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1774708301231",
-          "title": "P1 - Finish the response doc in full",
-          "note": "",
-          "tags": [],
-          "category": "case",
-          "createdAt": "2026-03-28T14:31:41.231Z",
           "completedAt": null
         },
         {
