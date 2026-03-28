@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:35:18.842Z",
+  "lastModifiedAt": "2026-03-28T14:35:25.336Z",
   "sections": [
     {
       "id": "backlog",
@@ -473,7 +473,7 @@
         },
         {
           "id": "t_1774639875663",
-          "title": "Cancel Swimming",
+          "title": "P1 - Cancel Swimming",
           "note": "",
           "tags": [],
           "category": "personal",
