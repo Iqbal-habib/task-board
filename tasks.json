@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:31:45.311Z",
+  "lastModifiedAt": "2026-03-28T14:31:56.111Z",
   "sections": [
     {
       "id": "backlog",
@@ -408,6 +408,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1774708316111",
+          "title": "do all my audio recordings and google stuff. catch up",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-28T14:31:56.111Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774708305311",
           "title": "Finish my jouirnal",
