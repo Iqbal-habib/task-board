@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T22:21:18.494Z",
+  "lastModifiedAt": "2026-03-28T22:21:34.062Z",
   "sections": [
     {
       "id": "backlog",
@@ -436,15 +436,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774708285466",
-          "title": "Pay my lawyers",
-          "note": "",
-          "tags": [],
-          "category": "case",
-          "createdAt": "2026-03-28T14:31:25.466Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774708316111",
           "title": "do all my audio recordings and google stuff. catch up",
           "note": "",
@@ -610,6 +601,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774708285466",
+          "title": "Pay my lawyers",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-28T14:31:25.466Z",
+          "completedAt": "2026-03-28T22:21:34.062Z"
+        },
         {
           "id": "t_1774639875663",
           "title": "P1 - Cancel Swimming",
