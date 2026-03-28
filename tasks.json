@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:30:13.458Z",
+  "lastModifiedAt": "2026-03-28T14:30:16.273Z",
   "sections": [
     {
       "id": "backlog",
@@ -409,6 +409,15 @@
       "color": "#3b82f6",
       "tasks": [
         {
+          "id": "t_1774622184189",
+          "title": "Do a final pass of the kickoff deck + Set a time for it",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-27T14:36:24.189Z",
+          "completedAt": null
+        },
+        {
           "id": "t_1774639884855",
           "title": "Book Haricut for Issa",
           "note": "",
@@ -469,15 +478,6 @@
           "tags": [],
           "category": "personal",
           "createdAt": "2026-03-27T14:37:11.777Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1774622184189",
-          "title": "Do a final pass of the kickoff deck + Set a time for it",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-27T14:36:24.189Z",
           "completedAt": null
         },
         {
