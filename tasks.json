@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-27T20:20:50.946Z",
+  "lastModifiedAt": "2026-03-28T14:30:13.458Z",
   "sections": [
     {
       "id": "backlog",
@@ -77,6 +77,15 @@
       "title": "This Week",
       "color": "#8b5cf6",
       "tasks": [
+        {
+          "id": "t_1774623915983",
+          "title": "Book 1-1 with Bret",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-27T15:05:15.983Z",
+          "completedAt": null
+        },
         {
           "id": "t_4008",
           "title": "2. work on V1 of the vision (start with what lauren shared ben in MD file)",
@@ -451,15 +460,6 @@
           "tags": [],
           "category": "case",
           "createdAt": "2026-03-27T17:29:47.830Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1774623915983",
-          "title": "Book 1-1 with Bret",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-03-27T15:05:15.983Z",
           "completedAt": null
         },
         {
