@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:31:56.111Z",
+  "lastModifiedAt": "2026-03-28T14:34:45.181Z",
   "sections": [
     {
       "id": "backlog",
@@ -428,7 +428,7 @@
         },
         {
           "id": "t_1774708301231",
-          "title": "Finish the response doc in full",
+          "title": "P1 - Finish the response doc in full",
           "note": "",
           "tags": [],
           "category": "case",
