@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:36:26.165Z",
+  "lastModifiedAt": "2026-03-28T22:21:18.494Z",
   "sections": [
     {
       "id": "backlog",
@@ -463,15 +463,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774639875663",
-          "title": "P1 - Cancel Swimming",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-27T19:31:15.663Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774639884855",
           "title": "P2 - Book Haricut for Issa",
           "note": "",
@@ -619,6 +610,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774639875663",
+          "title": "P1 - Cancel Swimming",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T19:31:15.663Z",
+          "completedAt": "2026-03-28T22:21:18.494Z"
+        },
         {
           "id": "t_1774233329691",
           "title": "Send a message to AShley and Shelly",
