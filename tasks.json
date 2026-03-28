@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:31:02.373Z",
+  "lastModifiedAt": "2026-03-28T14:31:13.029Z",
   "sections": [
     {
       "id": "backlog",
@@ -449,7 +449,7 @@
           "title": "Figure out the best way to bill for IQmetrix",
           "note": "",
           "tags": [],
-          "category": "case",
+          "category": "personal",
           "createdAt": "2026-03-27T15:36:53.043Z",
           "completedAt": null
         },
