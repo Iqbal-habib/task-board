@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-28T14:35:36.481Z",
+  "lastModifiedAt": "2026-03-28T14:36:03.365Z",
   "sections": [
     {
       "id": "backlog",
@@ -541,6 +541,15 @@
       "title": "Things to Buy",
       "color": "#f59e0b",
       "tasks": [
+        {
+          "id": "t_1774708563365",
+          "title": "Buy Keyboard",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-28T14:36:03.365Z",
+          "completedAt": null
+        },
         {
           "id": "t_2001",
           "title": "Buy the dates from Hikmat",
