@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-30T02:11:46.480Z",
+  "lastModifiedAt": "2026-03-30T02:11:49.753Z",
   "sections": [
     {
       "id": "backlog",
@@ -463,21 +463,21 @@
           "completedAt": null
         },
         {
-          "id": "t_1774836640804",
-          "title": "Cancel haircut",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-30T02:10:40.804Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774708518842",
           "title": "Buy my keyboard",
           "note": "",
           "tags": [],
           "category": "personal",
           "createdAt": "2026-03-28T14:35:18.842Z",
+          "completedAt": null
+        },
+        {
+          "id": "t_1774836640804",
+          "title": "Cancel haircut",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-30T02:10:40.804Z",
           "completedAt": null
         },
         {
