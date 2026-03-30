@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-30T02:10:40.804Z",
+  "lastModifiedAt": "2026-03-30T02:10:43.423Z",
   "sections": [
     {
       "id": "backlog",
@@ -463,15 +463,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774639884855",
-          "title": "P2 - Book Haricut for Issa",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-27T19:31:24.855Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774624372704",
           "title": "Send Sadaf a message about Zaytoon TODAY (on Friday)",
           "note": "",
@@ -610,6 +601,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774639884855",
+          "title": "P2 - Book Haricut for Issa",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T19:31:24.855Z",
+          "completedAt": "2026-03-30T02:10:43.423Z"
+        },
         {
           "id": "t_1774708285466",
           "title": "Pay my lawyers",
