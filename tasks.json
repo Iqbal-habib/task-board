@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-30T02:10:48.672Z",
+  "lastModifiedAt": "2026-03-30T02:10:50.386Z",
   "sections": [
     {
       "id": "backlog",
@@ -77,6 +77,15 @@
       "title": "This Week",
       "color": "#8b5cf6",
       "tasks": [
+        {
+          "id": "t_1774622231777",
+          "title": "Call TD insurrance",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T14:37:11.777Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774623915983",
           "title": "Book 1-1 with Bret",
@@ -487,15 +496,6 @@
           "tags": [],
           "category": "case",
           "createdAt": "2026-03-27T17:29:47.830Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1774622231777",
-          "title": "Call TD insurrance",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-27T14:37:11.777Z",
           "completedAt": null
         },
         {
