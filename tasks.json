@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-03-30T02:10:43.423Z",
+  "lastModifiedAt": "2026-03-30T02:10:48.672Z",
   "sections": [
     {
       "id": "backlog",
@@ -481,15 +481,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774622269484",
-          "title": "Test out the new keyboard",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-27T14:37:49.484Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774632587830",
           "title": "Send sadaf a message saying that the only way to deal with the enbridge, was to cancel her online account and then sign up my email so that I can login and set up my billing. I should have access on Monday./Turesday so that I can go in",
           "note": "",
@@ -601,6 +592,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774622269484",
+          "title": "Test out the new keyboard",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-27T14:37:49.484Z",
+          "completedAt": "2026-03-30T02:10:48.672Z"
+        },
         {
           "id": "t_1774639884855",
           "title": "P2 - Book Haricut for Issa",
