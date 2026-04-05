@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:29:15.719Z",
+  "lastModifiedAt": "2026-04-05T03:29:18.452Z",
   "sections": [
     {
       "id": "backlog",
@@ -493,15 +493,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774836706480",
-          "title": "Message Issas Classmates dad today",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-30T02:11:46.480Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774708518842",
           "title": "Buy my keyboard",
           "note": "",
@@ -640,6 +631,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774836706480",
+          "title": "Message Issas Classmates dad today",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-30T02:11:46.480Z",
+          "completedAt": "2026-04-05T03:29:18.452Z"
+        },
         {
           "id": "t_1774836694299",
           "title": "Messate Sadaf about what happened at the door",
