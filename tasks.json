@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:30:20.568Z",
+  "lastModifiedAt": "2026-04-05T03:30:21.736Z",
   "sections": [
     {
       "id": "backlog",
@@ -357,17 +357,6 @@
           "category": "work"
         },
         {
-          "id": "t_4017",
-          "title": "Review what Diana sent",
-          "note": "",
-          "createdAt": "2026-03-21T12:00:00Z",
-          "completedAt": null,
-          "tags": [
-            "work"
-          ],
-          "category": "work"
-        },
-        {
           "id": "t_4018",
           "title": "Determine EOL for SSRS - ask from BEN",
           "note": "",
@@ -589,6 +578,17 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_4017",
+          "title": "Review what Diana sent",
+          "note": "",
+          "createdAt": "2026-03-21T12:00:00Z",
+          "completedAt": "2026-04-05T03:30:21.736Z",
+          "tags": [
+            "work"
+          ],
+          "category": "work"
+        },
         {
           "id": "t_4005",
           "title": "Book time with Ken",
