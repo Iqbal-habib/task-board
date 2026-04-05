@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:31:39.991Z",
+  "lastModifiedAt": "2026-04-05T03:31:43.924Z",
   "sections": [
     {
       "id": "backlog",
@@ -161,6 +161,15 @@
             "financial"
           ],
           "category": "personal"
+        },
+        {
+          "id": "t_1775359896922",
+          "title": "Respond to Sadaf about Car insiruace question",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-04-05T03:31:36.922Z",
+          "completedAt": null
         },
         {
           "id": "t_3037",
@@ -390,15 +399,6 @@
           "tags": [],
           "category": "work",
           "createdAt": "2026-04-05T03:27:06.676Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1775359896922",
-          "title": "Respond to Sadaf about Car insiruace question",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-04-05T03:31:36.922Z",
           "completedAt": null
         },
         {
