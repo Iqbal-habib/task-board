@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:29:40.083Z",
+  "lastModifiedAt": "2026-04-05T03:29:47.116Z",
   "sections": [
     {
       "id": "backlog",
@@ -77,6 +77,15 @@
       "title": "This Week",
       "color": "#8b5cf6",
       "tasks": [
+        {
+          "id": "t_1775359609738",
+          "title": "Tell Sadaf how much phone plan",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-04-05T03:26:49.738Z",
+          "completedAt": null
+        },
         {
           "id": "t_1774622231777",
           "title": "Call TD insurrance",
@@ -427,15 +436,6 @@
           "tags": [],
           "category": "work",
           "createdAt": "2026-04-05T03:25:57.142Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1775359609738",
-          "title": "Tell Sadaf how much phone plan",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-04-05T03:26:49.738Z",
           "completedAt": null
         },
         {
