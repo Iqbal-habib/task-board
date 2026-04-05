@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:31:56.760Z",
+  "lastModifiedAt": "2026-04-05T03:31:57.877Z",
   "sections": [
     {
       "id": "backlog",
@@ -456,15 +456,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774708305311",
-          "title": "P2 - Finish my jouirnal",
-          "note": "",
-          "tags": [],
-          "category": "case",
-          "createdAt": "2026-03-28T14:31:45.311Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774632587830",
           "title": "Send sadaf a message saying that the only way to deal with the enbridge, was to cancel her online account and then sign up my email so that I can login and set up my billing. I should have access on Monday./Turesday so that I can go in",
           "note": "",
@@ -549,6 +540,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774708305311",
+          "title": "P2 - Finish my jouirnal",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-28T14:31:45.311Z",
+          "completedAt": "2026-04-05T03:31:57.877Z"
+        },
         {
           "id": "t_1774708301231",
           "title": "P1 - Finish the response doc in full",
