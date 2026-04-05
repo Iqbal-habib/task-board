@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:32:31.011Z",
+  "lastModifiedAt": "2026-04-05T03:32:46.077Z",
   "sections": [
     {
       "id": "backlog",
@@ -298,17 +298,6 @@
           "category": "case"
         },
         {
-          "id": "t_3021",
-          "title": "Let Sadaf know and finish the Survey for Yasamine",
-          "note": "",
-          "createdAt": "2026-03-10T13:00:00Z",
-          "completedAt": null,
-          "tags": [
-            "kids"
-          ],
-          "category": "case"
-        },
-        {
           "id": "t_3018",
           "title": "Create Yasamine's Medical doc + add eye doctor appointment",
           "note": "",
@@ -518,6 +507,17 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_3021",
+          "title": "Let Sadaf know and finish the Survey for Yasamine",
+          "note": "",
+          "createdAt": "2026-03-10T13:00:00Z",
+          "completedAt": "2026-04-05T03:32:46.077Z",
+          "tags": [
+            "kids"
+          ],
+          "category": "case"
+        },
         {
           "id": "t_3055",
           "title": "Book Issa's haircut",
