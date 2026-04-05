@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:30:30.233Z",
+  "lastModifiedAt": "2026-04-05T03:30:42.821Z",
   "sections": [
     {
       "id": "backlog",
@@ -499,15 +499,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774708563365",
-          "title": "Buy Keyboard",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-28T14:36:03.365Z",
-          "completedAt": null
-        },
-        {
           "id": "t_2001",
           "title": "Buy the dates from Hikmat",
           "note": "",
@@ -567,6 +558,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774708563365",
+          "title": "Buy Keyboard",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-28T14:36:03.365Z",
+          "completedAt": "2026-04-05T03:30:42.821Z"
+        },
         {
           "id": "t_4026",
           "title": "Follow up with IT Guy about analytics",
