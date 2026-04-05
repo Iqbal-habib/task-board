@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:27:51.216Z",
+  "lastModifiedAt": "2026-04-05T03:28:14.003Z",
   "sections": [
     {
       "id": "backlog",
@@ -153,18 +153,6 @@
           "tags": [
             "financial",
             "kids"
-          ],
-          "category": "personal"
-        },
-        {
-          "id": "t_3043",
-          "title": "Owe my mom $75 for Sephora",
-          "note": "",
-          "createdAt": "2026-03-10T13:00:00Z",
-          "completedAt": null,
-          "tags": [
-            "financial",
-            "family"
           ],
           "category": "personal"
         },
@@ -736,6 +724,18 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_3043",
+          "title": "Owe my mom $75 for Sephora",
+          "note": "",
+          "createdAt": "2026-03-10T13:00:00Z",
+          "completedAt": "2026-04-05T03:28:14.002Z",
+          "tags": [
+            "financial",
+            "family"
+          ],
+          "category": "personal"
+        },
         {
           "id": "t_1774622269484",
           "title": "Test out the new keyboard",
