@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:29:09.735Z",
+  "lastModifiedAt": "2026-04-05T03:29:11.102Z",
   "sections": [
     {
       "id": "backlog",
@@ -520,15 +520,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774836670420",
-          "title": "Message Sadaf about Zaytoon",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-30T02:11:10.420Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774708518842",
           "title": "Buy my keyboard",
           "note": "",
@@ -667,6 +658,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774836670420",
+          "title": "Message Sadaf about Zaytoon",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-30T02:11:10.420Z",
+          "completedAt": "2026-04-05T03:29:11.102Z"
+        },
         {
           "id": "t_1774836664421",
           "title": "Messafge Sadaf abotu kids clothes",
