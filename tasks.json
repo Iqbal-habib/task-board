@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:29:21.566Z",
+  "lastModifiedAt": "2026-04-05T03:29:26.683Z",
   "sections": [
     {
       "id": "backlog",
@@ -421,6 +421,15 @@
       "color": "#3b82f6",
       "tasks": [
         {
+          "id": "t_1775359534023",
+          "title": "Clean up VS code for work",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-04-05T03:25:34.023Z",
+          "completedAt": null
+        },
+        {
           "id": "t_1775359557142",
           "title": "Work - Finalize the playbook stuff",
           "note": "",
@@ -481,15 +490,6 @@
           "tags": [],
           "category": "personal",
           "createdAt": "2026-04-05T03:26:49.738Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1775359534023",
-          "title": "Clean up VS code for work",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-04-05T03:25:34.023Z",
           "completedAt": null
         },
         {
