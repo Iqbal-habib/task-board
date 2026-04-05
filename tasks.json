@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:26:49.738Z",
+  "lastModifiedAt": "2026-04-05T03:26:57.691Z",
   "sections": [
     {
       "id": "backlog",
@@ -417,6 +417,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1775359617691",
+          "title": "Change wifi pass",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-04-05T03:26:57.691Z",
+          "completedAt": null
+        },
         {
           "id": "t_1775359609738",
           "title": "Tell Sadaf how much phone plan",
