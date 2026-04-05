@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:31:50.944Z",
+  "lastModifiedAt": "2026-04-05T03:31:56.760Z",
   "sections": [
     {
       "id": "backlog",
@@ -456,15 +456,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774708301231",
-          "title": "P1 - Finish the response doc in full",
-          "note": "",
-          "tags": [],
-          "category": "case",
-          "createdAt": "2026-03-28T14:31:41.231Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774708305311",
           "title": "P2 - Finish my jouirnal",
           "note": "",
@@ -558,6 +549,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774708301231",
+          "title": "P1 - Finish the response doc in full",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-28T14:31:41.231Z",
+          "completedAt": "2026-04-05T03:31:56.760Z"
+        },
         {
           "id": "t_1774708316111",
           "title": "do all my audio recordings and google stuff. catch up",
