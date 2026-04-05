@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:30:27.235Z",
+  "lastModifiedAt": "2026-04-05T03:30:30.233Z",
   "sections": [
     {
       "id": "backlog",
@@ -388,7 +388,7 @@
           "title": "Finish Telegram",
           "note": "",
           "tags": [],
-          "category": "work",
+          "category": "case",
           "createdAt": "2026-04-05T03:25:10.963Z",
           "completedAt": null
         },
