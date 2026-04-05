@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:29:11.102Z",
+  "lastModifiedAt": "2026-04-05T03:29:13.335Z",
   "sections": [
     {
       "id": "backlog",
@@ -511,15 +511,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774836679604",
-          "title": "Message Sadaf about the cut on Yasi's leg",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-30T02:11:19.604Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774708518842",
           "title": "Buy my keyboard",
           "note": "",
@@ -658,6 +649,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774836679604",
+          "title": "Message Sadaf about the cut on Yasi's leg",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-30T02:11:19.604Z",
+          "completedAt": "2026-04-05T03:29:13.335Z"
+        },
         {
           "id": "t_1774836670420",
           "title": "Message Sadaf about Zaytoon",
