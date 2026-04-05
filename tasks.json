@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:30:42.821Z",
+  "lastModifiedAt": "2026-04-05T03:30:59.125Z",
   "sections": [
     {
       "id": "backlog",
@@ -465,15 +465,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774624372704",
-          "title": "Send Sadaf a message about Zaytoon TODAY (on Friday)",
-          "note": "",
-          "tags": [],
-          "category": "case",
-          "createdAt": "2026-03-27T15:12:52.704Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774632587830",
           "title": "Send sadaf a message saying that the only way to deal with the enbridge, was to cancel her online account and then sign up my email so that I can login and set up my billing. I should have access on Monday./Turesday so that I can go in",
           "note": "",
@@ -558,6 +549,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774624372704",
+          "title": "Send Sadaf a message about Zaytoon TODAY (on Friday)",
+          "note": "",
+          "tags": [],
+          "category": "case",
+          "createdAt": "2026-03-27T15:12:52.704Z",
+          "completedAt": "2026-04-05T03:30:59.125Z"
+        },
         {
           "id": "t_1774708563365",
           "title": "Buy Keyboard",
