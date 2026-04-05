@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:28:37.833Z",
+  "lastModifiedAt": "2026-04-05T03:28:41.183Z",
   "sections": [
     {
       "id": "backlog",
@@ -181,6 +181,15 @@
           "tags": [],
           "category": "personal",
           "createdAt": "2026-04-05T03:26:20.910Z",
+          "completedAt": null
+        },
+        {
+          "id": "t_1775359527680",
+          "title": "Clean up VS code for personal",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-04-05T03:25:27.680Z",
           "completedAt": null
         },
         {
@@ -463,15 +472,6 @@
           "tags": [],
           "category": "personal",
           "createdAt": "2026-04-05T03:25:34.023Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1775359527680",
-          "title": "Clean up VS code for personal",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-04-05T03:25:27.680Z",
           "completedAt": null
         },
         {
