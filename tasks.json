@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:28:26.086Z",
+  "lastModifiedAt": "2026-04-05T03:28:27.382Z",
   "sections": [
     {
       "id": "backlog",
@@ -155,6 +155,15 @@
             "kids"
           ],
           "category": "personal"
+        },
+        {
+          "id": "t_1775359637514",
+          "title": "Cancenl Obsidian",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-04-05T03:27:17.514Z",
+          "completedAt": null
         },
         {
           "id": "t_3059",
@@ -392,15 +401,6 @@
           "completedAt": null,
           "tags": [],
           "category": "personal"
-        },
-        {
-          "id": "t_1775359637514",
-          "title": "Cancenl Obsidian",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-04-05T03:27:17.514Z",
-          "completedAt": null
         },
         {
           "id": "t_1775359626676",
