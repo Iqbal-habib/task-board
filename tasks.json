@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:29:00.417Z",
+  "lastModifiedAt": "2026-04-05T03:29:05.368Z",
   "sections": [
     {
       "id": "backlog",
@@ -547,15 +547,6 @@
           "completedAt": null
         },
         {
-          "id": "t_1774836640804",
-          "title": "Cancel haircut",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-30T02:10:40.804Z",
-          "completedAt": null
-        },
-        {
           "id": "t_1774708301231",
           "title": "P1 - Finish the response doc in full",
           "note": "",
@@ -685,6 +676,15 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_1774836640804",
+          "title": "Cancel haircut",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-30T02:10:40.804Z",
+          "completedAt": "2026-04-05T03:29:05.368Z"
+        },
         {
           "id": "t_1774394862264",
           "title": "WORK ON THE ARCHITECTURE STUFF!",
