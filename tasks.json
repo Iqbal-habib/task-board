@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:29:29.865Z",
+  "lastModifiedAt": "2026-04-05T03:29:40.083Z",
   "sections": [
     {
       "id": "backlog",
@@ -430,6 +430,15 @@
           "completedAt": null
         },
         {
+          "id": "t_1775359609738",
+          "title": "Tell Sadaf how much phone plan",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-04-05T03:26:49.738Z",
+          "completedAt": null
+        },
+        {
           "id": "t_1775359547074",
           "title": "Work - Summarize the AGent Inventory stuff",
           "note": "",
@@ -481,15 +490,6 @@
           "tags": [],
           "category": "personal",
           "createdAt": "2026-04-05T03:27:06.676Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1775359609738",
-          "title": "Tell Sadaf how much phone plan",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-04-05T03:26:49.738Z",
           "completedAt": null
         },
         {
