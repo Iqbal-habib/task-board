@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:33:46.776Z",
+  "lastModifiedAt": "2026-04-05T03:33:51.209Z",
   "sections": [
     {
       "id": "backlog",
@@ -111,6 +111,15 @@
           "tags": [],
           "category": "personal",
           "createdAt": "2026-03-22T05:44:43.990Z",
+          "completedAt": null
+        },
+        {
+          "id": "t_1775360024190",
+          "title": "- AI Meeting (Co[pilot usage, data instructions stuff, Playbook concept (shifting to ai first), I’ve requested 5 things, how do we expect people to be AI first if we can’t get access)",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-04-05T03:33:44.190Z",
           "completedAt": null
         },
         {
@@ -350,15 +359,6 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
-        {
-          "id": "t_1775360024190",
-          "title": "- AI Meeting (Co[pilot usage, data instructions stuff, Playbook concept (shifting to ai first), I’ve requested 5 things, how do we expect people to be AI first if we can’t get access)",
-          "note": "",
-          "tags": [],
-          "category": "work",
-          "createdAt": "2026-04-05T03:33:44.190Z",
-          "completedAt": null
-        },
         {
           "id": "t_1775359932556",
           "title": "Follow up with Sadaf about when I transferred all the bills",
