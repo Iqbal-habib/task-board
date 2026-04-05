@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:27:17.514Z",
+  "lastModifiedAt": "2026-04-05T03:27:51.216Z",
   "sections": [
     {
       "id": "backlog",
@@ -87,6 +87,15 @@
           "completedAt": null
         },
         {
+          "id": "t_1774158283990",
+          "title": "Figure out what I am going to do about Dr Panowwkys appoiintment",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-03-22T05:44:43.990Z",
+          "completedAt": null
+        },
+        {
           "id": "t_1774623915983",
           "title": "Book 1-1 with Bret",
           "note": "",
@@ -105,15 +114,6 @@
             "work"
           ],
           "category": "work"
-        },
-        {
-          "id": "t_1774158283990",
-          "title": "Figure out what I am going to do about Dr Panowwkys appoiintment",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-22T05:44:43.990Z",
-          "completedAt": null
         },
         {
           "id": "t_1774158228095",
