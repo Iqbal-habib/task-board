@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:32:25.361Z",
+  "lastModifiedAt": "2026-04-05T03:32:31.011Z",
   "sections": [
     {
       "id": "backlog",
@@ -249,17 +249,6 @@
           "completedAt": null,
           "tags": [
             "legal"
-          ],
-          "category": "case"
-        },
-        {
-          "id": "t_3055",
-          "title": "Book Issa's haircut",
-          "note": "",
-          "createdAt": "2026-03-10T13:00:00Z",
-          "completedAt": null,
-          "tags": [
-            "kids"
           ],
           "category": "case"
         },
@@ -529,6 +518,17 @@
       "title": "Done",
       "color": "#22c55e",
       "tasks": [
+        {
+          "id": "t_3055",
+          "title": "Book Issa's haircut",
+          "note": "",
+          "createdAt": "2026-03-10T13:00:00Z",
+          "completedAt": "2026-04-05T03:32:31.011Z",
+          "tags": [
+            "kids"
+          ],
+          "category": "case"
+        },
         {
           "id": "t_4020",
           "title": "Message Shelly and Ashley with the questions BY SUNDAY NIGHT",
