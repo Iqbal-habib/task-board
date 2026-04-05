@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-05T03:28:53.669Z",
+  "lastModifiedAt": "2026-04-05T03:29:00.417Z",
   "sections": [
     {
       "id": "backlog",
@@ -439,6 +439,15 @@
           "completedAt": null
         },
         {
+          "id": "t_1774625813043",
+          "title": "Figure out the best way to bill for IQmetrix",
+          "note": "",
+          "tags": [],
+          "category": "work",
+          "createdAt": "2026-03-27T15:36:53.043Z",
+          "completedAt": null
+        },
+        {
           "id": "t_4034",
           "title": "Buy the keyboard",
           "note": "",
@@ -580,15 +589,6 @@
           "tags": [],
           "category": "case",
           "createdAt": "2026-03-27T15:12:52.704Z",
-          "completedAt": null
-        },
-        {
-          "id": "t_1774625813043",
-          "title": "Figure out the best way to bill for IQmetrix",
-          "note": "",
-          "tags": [],
-          "category": "personal",
-          "createdAt": "2026-03-27T15:36:53.043Z",
           "completedAt": null
         },
         {
