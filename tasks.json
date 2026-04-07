@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-07T14:14:30.391Z",
+  "lastModifiedAt": "2026-04-07T14:14:34.799Z",
   "sections": [
     {
       "id": "backlog",
@@ -359,6 +359,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1775571274799",
+          "title": "Cancel Chatpgtp",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-04-07T14:14:34.799Z",
+          "completedAt": null
+        },
         {
           "id": "t_1775571270390",
           "title": "Cancel Obsidian",
