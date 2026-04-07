@@ -1,7 +1,7 @@
 {
   "version": 1,
   "lastModifiedBy": "web",
-  "lastModifiedAt": "2026-04-07T14:14:34.799Z",
+  "lastModifiedAt": "2026-04-07T14:14:47.028Z",
   "sections": [
     {
       "id": "backlog",
@@ -359,6 +359,15 @@
       "title": "Today",
       "color": "#3b82f6",
       "tasks": [
+        {
+          "id": "t_1775571287028",
+          "title": "Add Bahar's Cluade Pro receipt to my expenses",
+          "note": "",
+          "tags": [],
+          "category": "personal",
+          "createdAt": "2026-04-07T14:14:47.028Z",
+          "completedAt": null
+        },
         {
           "id": "t_1775571274799",
           "title": "Cancel Chatpgtp",
